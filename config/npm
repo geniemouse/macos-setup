@@ -1,0 +1,9 @@
+@11ty/eleventy::eleventy
+@vue/cli::vue
+aemfed
+eslint::eslint
+fast-cli::fast
+gulp-cli::gulp
+pa11y::pa11y
+spaceship-prompt:spaceship
+yo::yo
