@@ -1,1 +1,34 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+# shellcheck disable=SC1091
+
+# ============================================
+# ERROR: Let the user know if the script fails
+# ============================================
+# @todo: Add trap
+
+# ---
+
+# =================================
+# LOAD UTILITIES: Warn if not found
+# =================================
+
+if [ -e utils ] && . utils; then 
+    check_bash_version
+    check_internet_connection
+    
+else
+    printf "\n ⚠️  ./utils file not found.\n"
+    # exit 1
+fi
+
+
+# @todo:
+# - Ask for sudo password
+# - SSH key setup
+# - Install dependencies: Xcode, Homebrew, NVM(?)
+# - Install brews (the  run `brew update`) and casks
+# - Install Mac App Store applications
+# - Run Homebrew clean-up tasks
+# - Install npm global packages
+# - Any others...?

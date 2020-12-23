@@ -1,1 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+minBashVersion=3
+
+# =============
+# SYSTEM CHECKS
+# =============
+
+check_bash_version() {
+    if ((BASH_VERSINFO[0] < "$minBashVersion"))
+    then
+        printf "You need at least bash %s.0 or higher to run this script.\n" $minBashVersion
+        # exit 1
+    fi
+}
+
+check_internet_connection() {
+    if ping -q -c1 google.com &> /dev/null; then
+        printf "Internet connection detected.\n"
+    else
+        printf "Internet connection not found. Please check and try again.\n"
+    fi
+}
