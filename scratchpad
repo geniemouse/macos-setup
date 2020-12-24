@@ -1,0 +1,15 @@
+#!/bin/bash
+
+die() {
+    echo "$1" >&2
+    exit 1
+}
+
+check_file_exists() {
+    local FILE=$1
+    if [ -f "$FILE" ]; then
+        echo "The file '$FILE' exists"
+    else
+        echo "The file '$FILE' does not exist"
+    fi 
+}
