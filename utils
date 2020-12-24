@@ -2,6 +2,11 @@
 
 minBashVersion=3
 
+die() {
+    echo "$1" >&2
+    exit 1
+}
+
 # =============
 # SYSTEM CHECKS
 # =============
@@ -10,14 +15,52 @@ check_bash_version() {
     if ((BASH_VERSINFO[0] < "$minBashVersion"))
     then
         printf "You need at least bash %s.0 or higher to run this script.\n" $minBashVersion
-        # exit 1
+        exit 1
     fi
 }
 
 check_internet_connection() {
     if ping -q -c1 google.com &> /dev/null; then
-        printf "Internet connection detected.\n"
+        printf "[✓] Internet connection detected.\n"
     else
         printf "Internet connection not found. Please check and try again.\n"
+        exit 1
+    fi
+}
+
+ask_for_sudo() {
+    # Ask for the administrator password upfront
+    sudo -v &> /dev/null
+
+    # Update existing `sudo` time stamp
+    # until this script has finished.
+    # https://gist.github.com/cowboy/3118588
+
+    # Keep-alive: update existing `sudo` time stamp until script has finished
+    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+    printf "[✓] Password cached.\n"
+}
+
+install_brews() {
+    local brew=$1
+    if test ! "$(brew list --formula | grep "$brew")"; then
+        printf "[↓] Installing %s..." "$brew"
+		brew install "$brew" >/dev/null
+		printf "[✓] %s installed!\n" "$brew"
+	else
+		printf "[-] %s already installed. Skipped.\n" "$brew"
+    fi
+}
+
+install_application_via_brew() {
+    # @todo: Detect if application already exists and skip
+    # @todo: Determine if jdk versions should be installed in default location, i.e. not in Applications directory
+    local cask=$1
+    if test ! "$(brew list --cask | grep "$cask")"; then
+        printf "[↓] Installing %s..." "$cask"
+        brew install --cask "$cask" --appdir=/Applications >/dev/null
+        printf "[✓] %s installed!\n" "$cask"
+    else
+        printf "[-] %s already installed. Skipped.\n" "$cask"
     fi
 }

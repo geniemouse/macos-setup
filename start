@@ -1,34 +1,152 @@
 #!/bin/bash
 
-# shellcheck disable=SC1091
+# Stop script on: 
+# - errors (-e), 
+# - unset variables (-u)
+# - pipe fails (-o pipefail)
+set -euo pipefail
+
+# =========
+# CONSTANTS
+# =========
+# APPS="$PWD/config/apps"
+BREWS="$PWD/config/brews"
+CASKS="$PWD/config/casks"
+# NPM_PACKAGES="$PWD/config/npm"
 
 # ============================================
 # ERROR: Let the user know if the script fails
 # ============================================
-# @todo: Add trap
+warn_script_failure() {
+    FAILURE_CODE=$?
+    test $FAILURE_CODE -ne 0 && printf "[𝘅] macOS set-up script failed.\n" >&2
+    exit $FAILURE_CODE
+}
+
+trap warn_script_failure EXIT
+
+
+# ====================================
+# DEBUGGING: Line-by-line step-through
+# ====================================
+# -- Uncomment trap line below & add -x flag to `set`, or run script with `bash -x ./start`
+# trap '(read -p "[$BASH_SOURCE:$LINENO] $BASH_COMMAND")' DEBUG
+
+# ===============
+# SIGINT RESPONSE
+# ===============
+# -- Kill all background processes when CTRL+C pressed (OS sends SIGINT signal)
+trap 'kill $(jobs -p)' INT
+
 
 # ---
+
+
+printf "Starting macOS set-up script...\n"
 
 # =================================
 # LOAD UTILITIES: Warn if not found
 # =================================
-
-if [ -e utils ] && . utils; then 
+# Disable shellcheck 'Not following' source rule
+# shellcheck disable=SC1091
+if [ -f utils ] && . utils; then 
+    # Run system checks...
     check_bash_version
     check_internet_connection
-    
 else
     printf "\n ⚠️  ./utils file not found.\n"
-    # exit 1
+    exit 1
+fi
+
+# Table-of-contents:
+# 1. Ask for sudo password
+# 2. SSH key setup
+# 3. Install dependencies: Xcode, Homebrew, NVM(?)
+# 4. Install brews (the  run `brew update`) and casks
+# 5. Install Mac App Store applications
+# 6. Run Homebrew clean-up tasks
+# 7. Install npm global packages
+# 8. Any others...?
+
+# ================
+# PROMPT: Password
+# ================
+printf "Administator password...\n"
+ask_for_sudo
+
+# ===============
+# PROMPT: SSH key
+# ===============
+# printf "Checking for SSH key...\n"
+# @todo
+
+# =====================
+# INSTALL: Dependencies
+# =====================
+printf "Installing dependencies...\n"
+
+# Xcode
+# =====
+if type xcode-select >&- && 
+    xpath=$( xcode-select --print-path ) &&
+	test -d "${xpath}" && test -x "${xpath}"; then
+	printf "[-] Xcode already installed. Skipping.\n"
+else
+	printf "Installing Xcode..."
+	xcode-select --install
+	printf "[✓] Xcode installed!\n"
 fi
 
 
-# @todo:
-# - Ask for sudo password
-# - SSH key setup
-# - Install dependencies: Xcode, Homebrew, NVM(?)
-# - Install brews (the  run `brew update`) and casks
-# - Install Mac App Store applications
-# - Run Homebrew clean-up tasks
-# - Install npm global packages
-# - Any others...?
+# ~/.bin directory
+# ================
+if [ ! -d "$HOME/.bin/" ]; then
+	mkdir "$HOME/.bin"
+fi
+
+
+# Homebrew
+# ========
+if ! [ -x "$(command -v brew)" ]; then
+	printf "Installing Homebrew..."
+    curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh'
+	export PATH="/usr/local/bin:$PATH"
+	printf "[✓] Homebrew installed!\n"
+else
+	printf "[-] Homebrew already installed. Skipping.\n"
+fi
+
+if brew list --formula | grep -Fq brew-cask; then
+	printf "Uninstalling old Homebrew-Cask..."
+	brew uninstall --force brew-cask
+	printf "[✓] Homebrew-Cask uninstalled!"
+fi
+
+
+# ==============
+# INSTALL: Brews
+# ==============
+if [ -e "$BREWS" ]; then
+	printf "Installing Homebrew formulae...\n"
+	for brew in $(<"$BREWS")
+    do
+		install_brews "$brew"
+	done
+fi
+
+# ================
+# UPDATE: Homebrew
+# ================
+printf "Updating Homebrew formulae...\n"
+brew update
+
+# ==============
+# INSTALL: Casks
+# ==============
+if [ -e "$CASKS" ]; then
+    printf "Installing apps via Homebrew...\n"
+	for cask in $(<"$CASKS")
+    do
+	    install_application_via_brew "$cask"
+	done
+fi
