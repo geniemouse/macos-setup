@@ -89,37 +89,37 @@ printf "Installing dependencies...\n"
 # =====
 if type xcode-select >&- && 
     xpath=$( xcode-select --print-path ) &&
-	test -d "${xpath}" && test -x "${xpath}"; then
-	printf "[-] Xcode already installed. Skipping.\n"
+    test -d "${xpath}" && test -x "${xpath}"; then
+    printf "[-] Xcode already installed. Skipping.\n"
 else
-	printf "Installing Xcode..."
-	xcode-select --install
-	printf "[✓] Xcode installed!\n"
+    printf "Installing Xcode..."
+    xcode-select --install
+    printf "[✓] Xcode installed!\n"
 fi
 
 
 # ~/.bin directory
 # ================
 if [ ! -d "$HOME/.bin/" ]; then
-	mkdir "$HOME/.bin"
+    mkdir "$HOME/.bin"
 fi
 
 
 # Homebrew
 # ========
 if ! [ -x "$(command -v brew)" ]; then
-	printf "Installing Homebrew..."
+    printf "Installing Homebrew..."
     curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh'
-	export PATH="/usr/local/bin:$PATH"
-	printf "[✓] Homebrew installed!\n"
+    export PATH="/usr/local/bin:$PATH"
+    printf "[✓] Homebrew installed!\n"
 else
-	printf "[-] Homebrew already installed. Skipping.\n"
+    printf "[-] Homebrew already installed. Skipping.\n"
 fi
 
 if brew list --formula | grep -Fq brew-cask; then
-	printf "Uninstalling old Homebrew-Cask..."
-	brew uninstall --force brew-cask
-	printf "[✓] Homebrew-Cask uninstalled!"
+    printf "Uninstalling old Homebrew-Cask..."
+    brew uninstall --force brew-cask
+    printf "[✓] Homebrew-Cask uninstalled!"
 fi
 
 
@@ -127,11 +127,11 @@ fi
 # INSTALL: Brews
 # ==============
 if [ -e "$BREWS" ]; then
-	printf "Installing Homebrew formulae...\n"
-	for brew in $(<"$BREWS")
+    printf "Installing Homebrew formulae...\n"
+    for brew in $(<"$BREWS")
     do
-		install_brews "$brew"
-	done
+        install_brews "$brew"
+    done
 fi
 
 # ================
@@ -145,8 +145,8 @@ brew update
 # ==============
 if [ -e "$CASKS" ]; then
     printf "Installing apps via Homebrew...\n"
-	for cask in $(<"$CASKS")
+    for cask in $(<"$CASKS")
     do
-	    install_application_via_brew "$cask"
-	done
+        install_application_via_brew "$cask"
+    done
 fi

@@ -45,10 +45,10 @@ install_brews() {
     local brew=$1
     if test ! "$(brew list --formula | grep "$brew")"; then
         printf "[↓] Installing %s..." "$brew"
-		brew install "$brew" >/dev/null
-		printf "[✓] %s installed!\n" "$brew"
+        brew install "$brew" >/dev/null
+        printf "[✓] %s installed!\n" "$brew"
 	else
-		printf "[-] %s already installed. Skipped.\n" "$brew"
+        printf "[-] %s already installed. Skipped.\n" "$brew"
     fi
 }
 
