@@ -7,6 +7,26 @@ die() {
     exit 1
 }
 
+# =========
+# Messaging
+# =========
+message_download() {
+    printf "[↓] Installing %s...\n" "$1"
+}
+
+message_fail() {
+    printf "[𝘅] %s\n" "$1"
+}
+
+message_nochange() {
+    printf "[-] %s. Skipping\n" "$1"
+}
+
+message_success() {
+    printf "[✓] %s\n" "$1"
+}
+
+
 # =============
 # SYSTEM CHECKS
 # =============
@@ -21,7 +41,7 @@ check_bash_version() {
 
 check_internet_connection() {
     if ping -q -c1 google.com &> /dev/null; then
-        printf "[✓] Internet connection detected.\n"
+        message_success "Internet connection detected"
     else
         printf "Internet connection not found. Please check and try again.\n"
         exit 1
@@ -38,17 +58,17 @@ ask_for_sudo() {
 
     # Keep-alive: update existing `sudo` time stamp until script has finished
     while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-    printf "[✓] Password cached.\n"
+    message_success "Password cached"
 }
 
 install_brews() {
     local brew=$1
     if test ! "$(brew list --formula | grep "$brew")"; then
-        printf "[↓] Installing %s..." "$brew"
+        message_download "$brew"
         brew install "$brew" >/dev/null
-        printf "[✓] %s installed!\n" "$brew"
+        message_success "$brew installed"
 	else
-        printf "[-] %s already installed. Skipped.\n" "$brew"
+        message_nochange "$brew already installed"
     fi
 }
 
@@ -57,10 +77,10 @@ install_application_via_brew() {
     # @todo: Determine if jdk versions should be installed in default location, i.e. not in Applications directory
     local cask=$1
     if test ! "$(brew list --cask | grep "$cask")"; then
-        printf "[↓] Installing %s..." "$cask"
+        message_download "$cask"
         brew install --cask "$cask" --appdir=/Applications >/dev/null
-        printf "[✓] %s installed!\n" "$cask"
+        message_success "$cask installed"
     else
-        printf "[-] %s already installed. Skipped.\n" "$cask"
+        message_nochange "$cask already installed"
     fi
 }

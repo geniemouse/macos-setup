@@ -29,8 +29,11 @@ trap warn_script_failure EXIT
 # ====================================
 # DEBUGGING: Line-by-line step-through
 # ====================================
-# -- Uncomment trap line below & add -x flag to `set`, or run script with `bash -x ./start`
+# -- Uncomment trap line
+# -- Run script with `bash -x ./start`
+#    or add `-x` flag to `set` line, at top of this file
 # trap '(read -p "[$BASH_SOURCE:$LINENO] $BASH_COMMAND")' DEBUG
+
 
 # ===============
 # SIGINT RESPONSE
@@ -71,7 +74,7 @@ fi
 # ================
 # PROMPT: Password
 # ================
-printf "Administator password...\n"
+printf "Administator password required\n"
 ask_for_sudo
 
 # ===============
@@ -90,19 +93,19 @@ printf "Installing dependencies...\n"
 if type xcode-select >&- && 
     xpath=$( xcode-select --print-path ) &&
     test -d "${xpath}" && test -x "${xpath}"; then
-    printf "[-] Xcode already installed. Skipping.\n"
+    message_nochange "Xcode already installed"
 else
     printf "Installing Xcode..."
     xcode-select --install
-    printf "[✓] Xcode installed!\n"
+    message_success "Xcode installed"
 fi
 
 
 # ~/.bin directory
 # ================
-if [ ! -d "$HOME/.bin/" ]; then
-    mkdir "$HOME/.bin"
-fi
+# if [ ! -d "$HOME/.bin/" ]; then
+#     mkdir "$HOME/.bin"
+# fi
 
 
 # Homebrew
@@ -111,15 +114,15 @@ if ! [ -x "$(command -v brew)" ]; then
     printf "Installing Homebrew..."
     curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh'
     export PATH="/usr/local/bin:$PATH"
-    printf "[✓] Homebrew installed!\n"
+    message_success "Homebrew package manager installed"
 else
-    printf "[-] Homebrew already installed. Skipping.\n"
+    message_nochange "Homebrew already installed"
 fi
 
 if brew list --formula | grep -Fq brew-cask; then
     printf "Uninstalling old Homebrew-Cask..."
     brew uninstall --force brew-cask
-    printf "[✓] Homebrew-Cask uninstalled!"
+    message_success "Homebrew-Cask uninstalled"
 fi
 
 
