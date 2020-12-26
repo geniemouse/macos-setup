@@ -6,13 +6,27 @@
 # - pipe fails (-o pipefail)
 set -euo pipefail
 
+# ================
+# Key task outline
+# ================
+# 1. Ask for sudo password
+# 2. SSH key setup
+# 3. Install dependencies: Xcode, Homebrew
+# 4. Install Homebrew brews (also runs `brew update`) and casks
+# 5. Run Homebrew clean-up tasks
+# 6. Install Mac App Store applications
+# 7. Install npm global packages
+# 8. Anything else...?
+
+
 # =========
 # CONSTANTS
 # =========
-# APPS="$PWD/config/apps"
+APPS="$PWD/config/apps"
 BREWS="$PWD/config/brews"
 CASKS="$PWD/config/casks"
 # NPM_PACKAGES="$PWD/config/npm"
+
 
 # ============================================
 # ERROR: Let the user know if the script fails
@@ -61,15 +75,6 @@ else
     exit 1
 fi
 
-# Table-of-contents:
-# 1. Ask for sudo password
-# 2. SSH key setup
-# 3. Install dependencies: Xcode, Homebrew, NVM(?)
-# 4. Install brews (the  run `brew update`) and casks
-# 5. Install Mac App Store applications
-# 6. Run Homebrew clean-up tasks
-# 7. Install npm global packages
-# 8. Any others...?
 
 # ================
 # PROMPT: Password
@@ -77,11 +82,13 @@ fi
 printf "Administator password required\n"
 ask_for_sudo
 
+
 # ===============
 # PROMPT: SSH key
 # ===============
 # printf "Checking for SSH key...\n"
 # @todo
+
 
 # =====================
 # INSTALL: Dependencies
@@ -126,9 +133,9 @@ if brew list --formula | grep -Fq brew-cask; then
 fi
 
 
-# ==============
-# INSTALL: Brews
-# ==============
+# =======================
+# INSTALL: Homwbrew Brews
+# =======================
 if [ -e "$BREWS" ]; then
     printf "Installing Homebrew formulae...\n"
     for brew in $(<"$BREWS")
@@ -139,15 +146,17 @@ else
     printf "No additional config/brews requested.\n"
 fi
 
+
 # ================
 # UPDATE: Homebrew
 # ================
 printf "Updating Homebrew formulae...\n"
 brew update
 
-# ==============
-# INSTALL: Casks
-# ==============
+
+# =======================
+# INSTALL: Homebrew Casks
+# =======================
 # if [ -e "$CASKS" ]; then
 #     printf "Installing applications via Homebrew...\n"
 #     for cask in $(<"$CASKS")
@@ -157,3 +166,39 @@ brew update
 # else
 #     printf "No additional config/casks requested.\n"
 # fi
+
+
+# =====================
+# CLEAN: Homebrew files
+# =====================
+printf "Clean-up Homebrew files...\n"
+brew cleanup 2> /dev/null
+
+
+# ===================================
+# INSTALL: Mac App Store applications
+# ===================================
+if [ -x mas ]; then
+    message_fail "Please install mas-cli first: brew mas ...skipping"
+else
+    if [ -e "$APPS" ]; then
+        if mas_setup; then
+            # Workaround for associative array in Bash 3
+            # https://stackoverflow.com/questions/6047648/bash-4-associative-arrays-error-declare-a-invalid-option
+            for app in $(<"$APPS")
+            do
+                KEY="${app%%::*}"
+                VALUE="${app##*::}"
+                install_application_via_app_store "$KEY" "$VALUE"
+            done
+        else
+            message_fail "Please sign-in to the App Store first ...skipping"
+        fi
+    fi
+fi
+
+
+# ===========================
+# Install NPM global packages
+# ===========================
+# @todo

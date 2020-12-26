@@ -62,30 +62,50 @@ ask_for_sudo() {
 }
 
 install_brews() {
-    local brew=$1
-    # `grep -x` flag to perform exact match: equivalent to regex ^(brew)$
-    if test ! "$(brew list --formula | grep -x "$brew")"; then
-        message_download "$brew"
-        brew install "$brew" >/dev/null
-        message_success "$brew installed"
+    local BREW=$1
+    # `grep -x` flag to perform exact match: equivalent to regex ^(BREW)$
+    if test ! "$(brew list --formula | grep -x "$BREW")"; then
+        message_download "$BREW"
+        brew install "$BREW" >/dev/null
+        message_success "$BREW installed"
 	else
-        message_nochange "$brew already installed"
+        message_nochange "$BREW already installed"
     fi
 }
 
 install_application_via_brew() {
-    local cask=$1
-    # `grep -x` flag to perform exact match: equivalent to regex ^(cask)$
-    if test ! "$(brew list --cask | grep -x "$cask")"; then
-        message_download "$cask"
+    local CASK=$1
+    # `grep -x` flag to perform exact match: equivalent to regex ^(CASK)$
+    if test ! "$(brew list --cask | grep -x "$CASK")"; then
+        message_download "$CASK"
         # Don't install open JDK casks in Applications
-        if [[ "$cask" == "adoptopenjdk"* ]]; then
-            brew install --cask "$cask" >/dev/null
+        if [[ "$CASK" == "adoptopenjdk"* ]]; then
+            brew install --cask "$CASK" >/dev/null
         else
-            brew install --cask "$cask" --appdir=/Applications >/dev/null
+            brew install --cask "$CASK" --appdir=/Applications >/dev/null
         fi
-        message_success "$cask installed"
+        message_success "$CASK installed"
     else
-        message_nochange "$cask already installed"
+        message_nochange "$CASK already installed"
+    fi
+}
+
+mas_setup() {
+    if mas account > /dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+install_application_via_app_store() {
+    local APP_ID=$1
+    local APP_NAME=$2
+    if ! mas list | grep "$APP_ID" &> /dev/null; then
+        message_download "$APP_NAME"
+        mas install "$APP_ID" >/dev/null
+        message_success "$APP_NAME installed"
+    else
+        message_nochange "$APP_NAME already installed"
     fi
 }
