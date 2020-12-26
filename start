@@ -116,7 +116,7 @@ if ! [ -x "$(command -v brew)" ]; then
     export PATH="/usr/local/bin:$PATH"
     message_success "Homebrew package manager installed"
 else
-    message_nochange "Homebrew already installed"
+    message_nochange "Homebrew package manager already installed"
 fi
 
 if brew list --formula | grep -Fq brew-cask; then
@@ -135,6 +135,8 @@ if [ -e "$BREWS" ]; then
     do
         install_brews "$brew"
     done
+else
+    printf "No additional config/brews requested.\n"
 fi
 
 # ================
@@ -146,10 +148,12 @@ brew update
 # ==============
 # INSTALL: Casks
 # ==============
-if [ -e "$CASKS" ]; then
-    printf "Installing applications via Homebrew...\n"
-    for cask in $(<"$CASKS")
-    do
-        install_application_via_brew "$cask"
-    done
-fi
+# if [ -e "$CASKS" ]; then
+#     printf "Installing applications via Homebrew...\n"
+#     for cask in $(<"$CASKS")
+#     do
+#         install_application_via_brew "$cask"
+#     done
+# else
+#     printf "No additional config/casks requested.\n"
+# fi

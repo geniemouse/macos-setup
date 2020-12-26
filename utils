@@ -19,7 +19,7 @@ message_fail() {
 }
 
 message_nochange() {
-    printf "[-] %s. Skipping\n" "$1"
+    printf "[-] %s ...skipping\n" "$1"
 }
 
 message_success() {
