@@ -112,7 +112,7 @@ fi
 # ========
 if ! [ -x "$(command -v brew)" ]; then
     printf "Installing Homebrew..."
-    curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh'
+    curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh' | bash
     export PATH="/usr/local/bin:$PATH"
     message_success "Homebrew package manager installed"
 else
@@ -147,7 +147,7 @@ brew update
 # INSTALL: Casks
 # ==============
 if [ -e "$CASKS" ]; then
-    printf "Installing apps via Homebrew...\n"
+    printf "Installing applications via Homebrew...\n"
     for cask in $(<"$CASKS")
     do
         install_application_via_brew "$cask"

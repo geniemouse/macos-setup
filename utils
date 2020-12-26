@@ -63,7 +63,8 @@ ask_for_sudo() {
 
 install_brews() {
     local brew=$1
-    if test ! "$(brew list --formula | grep "$brew")"; then
+    # `grep -x` flag to perform exact match: equivalent to regex ^(brew)$
+    if test ! "$(brew list --formula | grep -x "$brew")"; then
         message_download "$brew"
         brew install "$brew" >/dev/null
         message_success "$brew installed"
@@ -73,12 +74,16 @@ install_brews() {
 }
 
 install_application_via_brew() {
-    # @todo: Detect if application already exists and skip
-    # @todo: Determine if jdk versions should be installed in default location, i.e. not in Applications directory
     local cask=$1
-    if test ! "$(brew list --cask | grep "$cask")"; then
+    # `grep -x` flag to perform exact match: equivalent to regex ^(cask)$
+    if test ! "$(brew list --cask | grep -x "$cask")"; then
         message_download "$cask"
-        brew install --cask "$cask" --appdir=/Applications >/dev/null
+        # Don't install open JDK casks in Applications
+        if [[ "$cask" == "adoptopenjdk"* ]]; then
+            brew install --cask "$cask" >/dev/null
+        else
+            brew install --cask "$cask" --appdir=/Applications >/dev/null
+        fi
         message_success "$cask installed"
     else
         message_nochange "$cask already installed"
