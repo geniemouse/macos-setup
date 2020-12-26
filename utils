@@ -2,10 +2,6 @@
 
 minBashVersion=3
 
-die() {
-    echo "$1" >&2
-    exit 1
-}
 
 # =========
 # Messaging
@@ -90,14 +86,6 @@ install_application_via_brew() {
     fi
 }
 
-mas_setup() {
-    if mas account > /dev/null; then
-        return 0
-    else
-        return 1
-    fi
-}
-
 install_application_via_app_store() {
     local APP_ID=$1
     local APP_NAME=$2
@@ -107,5 +95,17 @@ install_application_via_app_store() {
         message_success "$APP_NAME installed"
     else
         message_nochange "$APP_NAME already installed"
+    fi
+}
+
+install_npm_packages() {
+    local NPM_ID=$1
+    local NPM_NAME=$2
+    if ! type -P "$NPM_NAME" &>/dev/null; then
+        message_download "$NPM_ID"
+        npm install "$NPM_ID" --global --silent
+        message_success "$NPM_NAME installed"
+    else
+        message_nochange "$NPM_ID already installed"
     fi
 }

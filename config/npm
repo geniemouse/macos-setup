@@ -1,9 +1,5 @@
-@11ty/eleventy::eleventy
-@vue/cli::vue
-aemfed
-eslint::eslint
+browser-sync::browser-sync
 fast-cli::fast
-gulp-cli::gulp
-pa11y::pa11y
-spaceship-prompt:spaceship
+rollup::rollup
+spaceship-prompt::spaceship
 yo::yo

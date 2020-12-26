@@ -25,7 +25,7 @@ set -euo pipefail
 APPS="$PWD/config/apps"
 BREWS="$PWD/config/brews"
 CASKS="$PWD/config/casks"
-# NPM_PACKAGES="$PWD/config/npm"
+NPM_PACKAGES="$PWD/config/npm"
 
 
 # ============================================
@@ -182,7 +182,8 @@ if [ -x mas ]; then
     message_fail "Please install mas-cli first: brew mas ...skipping"
 else
     if [ -e "$APPS" ]; then
-        if mas_setup; then
+        printf "Installing Mac App Store applications...\n"
+        if mas account &>/dev/null; then
             # Workaround for associative array in Bash 3
             # https://stackoverflow.com/questions/6047648/bash-4-associative-arrays-error-declare-a-invalid-option
             for app in $(<"$APPS")
@@ -194,6 +195,8 @@ else
         else
             message_fail "Please sign-in to the App Store first ...skipping"
         fi
+    else
+        printf "No additional config/apps requested.\n"
     fi
 fi
 
@@ -201,4 +204,15 @@ fi
 # ===========================
 # Install NPM global packages
 # ===========================
-# @todo
+if [ -e "$NPM_PACKAGES" ]; then
+    printf "Installing global npm packages...\n"
+
+    for pkg in $(<"$NPM_PACKAGES")
+    do
+        KEY="${pkg%%::*}"
+        VALUE="${pkg##*::}"
+        install_npm_packages "$KEY" "$VALUE"
+    done
+else
+    printf "No additional config/npm requested.\n"
+fi
