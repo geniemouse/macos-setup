@@ -167,15 +167,15 @@ brew update
 # =======================
 # INSTALL: Homebrew Casks
 # =======================
-# chapter "Installing applications via Homebrew..."
-# if [ -e "$CASKS" ]; then
-#     for cask in $(<"$CASKS")
-#     do
-#         install_application_via_brew "$cask"
-#     done
-# else
-#     message "No additional config/casks requested."
-# fi
+chapter "Installing applications via Homebrew..."
+if [ -e "$CASKS" ]; then
+    for cask in $(<"$CASKS")
+    do
+        install_application_via_brew "$cask"
+    done
+else
+    message "No additional config/casks requested."
+fi
 
 
 # =====================
