@@ -58,8 +58,16 @@ trap 'kill $(jobs -p)' INT
 
 # ---
 
+printf "
+=================================================
+****** Welcome to this macOS set-up script ******
+=================================================
+- Safe to run multiple times on the same machine
+- It installs, upgrades, or skips packages based
+  on what is already installed
+-------------------------------------------------
+\n"
 
-printf "Starting macOS set-up script...\n"
 
 # =================================
 # LOAD UTILITIES: Warn if not found
@@ -68,6 +76,7 @@ printf "Starting macOS set-up script...\n"
 # shellcheck disable=SC1091
 if [ -f utils ] && . utils; then 
     # Run system checks...
+    create_log_file
     check_bash_version
     check_internet_connection
 else
@@ -79,21 +88,21 @@ fi
 # ================
 # PROMPT: Password
 # ================
-printf "Administator password required\n"
+message "Administator password required"
 ask_for_sudo
 
 
 # ===============
 # PROMPT: SSH key
 # ===============
-# printf "Checking for SSH key...\n"
+# chapter "Checking for SSH key..."
 # @todo
 
 
 # =====================
 # INSTALL: Dependencies
 # =====================
-printf "Installing dependencies...\n"
+chapter "Installing dependencies..."
 
 # Xcode
 # =====
@@ -102,7 +111,7 @@ if type xcode-select >&- &&
     test -d "${xpath}" && test -x "${xpath}"; then
     message_nochange "Xcode already installed"
 else
-    printf "Installing Xcode..."
+    message "Installing Xcode..."
     xcode-select --install
     message_success "Xcode installed"
 fi
@@ -118,7 +127,7 @@ fi
 # Homebrew
 # ========
 if ! [ -x "$(command -v brew)" ]; then
-    printf "Installing Homebrew..."
+    message "Installing Homebrew..."
     curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh' | bash
     export PATH="/usr/local/bin:$PATH"
     message_success "Homebrew package manager installed"
@@ -127,7 +136,7 @@ else
 fi
 
 if brew list --formula | grep -Fq brew-cask; then
-    printf "Uninstalling old Homebrew-Cask..."
+    message "Uninstalling old Homebrew-Cask..."
     brew uninstall --force brew-cask
     message_success "Homebrew-Cask uninstalled"
 fi
@@ -136,53 +145,55 @@ fi
 # =======================
 # INSTALL: Homwbrew Brews
 # =======================
+chapter "Installing Homebrew formulae..."
+
 if [ -e "$BREWS" ]; then
-    printf "Installing Homebrew formulae...\n"
     for brew in $(<"$BREWS")
     do
         install_brews "$brew"
     done
 else
-    printf "No additional config/brews requested.\n"
+    message "No additional config/brews requested."
 fi
 
 
 # ================
 # UPDATE: Homebrew
 # ================
-printf "Updating Homebrew formulae...\n"
+chapter "Updating Homebrew formulae..."
 brew update
 
 
 # =======================
 # INSTALL: Homebrew Casks
 # =======================
+# chapter "Installing applications via Homebrew..."
 # if [ -e "$CASKS" ]; then
-#     printf "Installing applications via Homebrew...\n"
 #     for cask in $(<"$CASKS")
 #     do
 #         install_application_via_brew "$cask"
 #     done
 # else
-#     printf "No additional config/casks requested.\n"
+#     message "No additional config/casks requested."
 # fi
 
 
 # =====================
 # CLEAN: Homebrew files
 # =====================
-printf "Clean-up Homebrew files...\n"
+chapter "Clean-up Homebrew files..."
 brew cleanup 2> /dev/null
 
 
 # ===================================
 # INSTALL: Mac App Store applications
 # ===================================
+chapter "Installing Mac App Store applications..."
+
 if [ -x mas ]; then
     message_fail "Please install mas-cli first: brew mas ...skipping"
 else
     if [ -e "$APPS" ]; then
-        printf "Installing Mac App Store applications...\n"
         if mas account &>/dev/null; then
             # Workaround for associative array in Bash 3
             # https://stackoverflow.com/questions/6047648/bash-4-associative-arrays-error-declare-a-invalid-option
@@ -196,7 +207,7 @@ else
             message_fail "Please sign-in to the App Store first ...skipping"
         fi
     else
-        printf "No additional config/apps requested.\n"
+        message "No additional config/apps requested."
     fi
 fi
 
@@ -204,9 +215,9 @@ fi
 # ===========================
 # Install NPM global packages
 # ===========================
-if [ -e "$NPM_PACKAGES" ]; then
-    printf "Installing global npm packages...\n"
+chapter "Installing global npm packages..."
 
+if [ -e "$NPM_PACKAGES" ]; then
     for pkg in $(<"$NPM_PACKAGES")
     do
         KEY="${pkg%%::*}"
@@ -214,5 +225,5 @@ if [ -e "$NPM_PACKAGES" ]; then
         install_npm_packages "$KEY" "$VALUE"
     done
 else
-    printf "No additional config/npm requested.\n"
+    message "No additional config/npm requested."
 fi

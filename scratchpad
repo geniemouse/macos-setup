@@ -3,7 +3,6 @@
 # @todo:
 # - Swap cofig file reads into line-by-line; then IFS delim
 # - ^^ Turn into util function
-# - Add 'Chapter' messages
 # - Create profile, if it doesn't exist
 #   - Add Set ZSH_THEME="spaceship" in your .zshrc
 #   - Add jdk function

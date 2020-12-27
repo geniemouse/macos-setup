@@ -1,36 +1,54 @@
 #!/bin/bash
 
 minBashVersion=3
+TIMESTAMP=$(date +%F)
+logFile=./log/mac-setup-run-"$TIMESTAMP".log
 
 
 # =========
 # Messaging
 # =========
+
+create_log_file() {
+    if [[ ! -e logFile ]]; then
+        mkdir -p ./log
+        touch ./log/mac-setup-run-"$TIMESTAMP".log
+    fi
+}
+
+chapter() {
+    printf "\n%s\n" "$1" | tee -a "$logFile"
+    printf "==============================\n"
+}
+
+message() {
+    printf "%s\n" "$1" | tee -a "$logFile"
+}
+
 message_download() {
-    printf "[↓] Installing %s...\n" "$1"
+    message "[↓] Installing $1..."
 }
 
 message_fail() {
-    printf "[𝘅] %s\n" "$1"
+    message "[𝘅] $1"
 }
 
 message_nochange() {
-    printf "[-] %s ...skipping\n" "$1"
+    message "[-] $1 ...skipping"
 }
 
 message_success() {
-    printf "[✓] %s\n" "$1"
+    message "[✓] $1"
 }
 
 
 # =============
 # SYSTEM CHECKS
 # =============
-
 check_bash_version() {
     if ((BASH_VERSINFO[0] < "$minBashVersion"))
     then
-        printf "You need at least bash %s.0 or higher to run this script.\n" $minBashVersion
+        message "You need at least bash $minBashVersion or higher to run this script."
         exit 1
     fi
 }
@@ -39,7 +57,7 @@ check_internet_connection() {
     if ping -q -c1 google.com &> /dev/null; then
         message_success "Internet connection detected"
     else
-        printf "Internet connection not found. Please check and try again.\n"
+        message "Internet connection not found. Please check and try again."
         exit 1
     fi
 }
