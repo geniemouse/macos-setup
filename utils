@@ -18,7 +18,7 @@ create_log_file() {
 
 chapter() {
     printf "\n%s\n" "$1" | tee -a "$logFile"
-    printf "==============================\n"
+    printf "========================================\n"
 }
 
 message() {

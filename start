@@ -33,7 +33,7 @@ NPM_PACKAGES="$PWD/config/npm"
 # ============================================
 warn_script_failure() {
     FAILURE_CODE=$?
-    test $FAILURE_CODE -ne 0 && printf "[𝘅] macOS set-up script failed.\n" >&2
+    test $FAILURE_CODE -ne 0 && message "[𝘅] macOS set-up script failed." >&2
     exit $FAILURE_CODE
 }
 
