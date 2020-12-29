@@ -129,7 +129,12 @@ install_application_via_brew() {
         message_download "$CASK"
         # Don't install open JDK casks in Applications
         if [[ "$CASK" == "adoptopenjdk"* ]]; then
-            brew install --cask "$CASK" >/dev/null
+            if [[ "$CASK" == "adoptopenjdk" ]]; then
+                brew install --cask "$CASK" >/dev/null
+                brew tap AdoptOpenJDK/openjdk >/dev/null
+            else
+                brew install --cask "$CASK" >/dev/null
+            fi
         else
             brew install --cask "$CASK" --appdir=/Applications >/dev/null
         fi
