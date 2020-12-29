@@ -131,7 +131,7 @@ install_application_via_brew() {
         if [[ "$CASK" == "adoptopenjdk"* ]]; then
             if [[ "$CASK" == "adoptopenjdk" ]]; then
                 brew install --cask "$CASK"
-                brew tap AdoptOpenJDK/openjdk
+                brew tap adoptopenjdk/openjdk
             else
                 brew install --cask "$CASK"
             fi
