@@ -115,7 +115,7 @@ install_brews() {
     # `grep -x` flag to perform exact match: equivalent to regex ^(BREW)$
     if test ! "$(brew list --formula | grep -x "$BREW")"; then
         message_download "$BREW"
-        brew install "$BREW" >/dev/null
+        brew install "$BREW"
         message_success "$BREW installed"
 	else
         message_nochange "$BREW already installed"
@@ -130,13 +130,13 @@ install_application_via_brew() {
         # Don't install open JDK casks in Applications
         if [[ "$CASK" == "adoptopenjdk"* ]]; then
             if [[ "$CASK" == "adoptopenjdk" ]]; then
-                brew install --cask "$CASK" >/dev/null
-                brew tap AdoptOpenJDK/openjdk >/dev/null
+                brew install --cask "$CASK"
+                brew tap AdoptOpenJDK/openjdk
             else
-                brew install --cask "$CASK" >/dev/null
+                brew install --cask "$CASK"
             fi
         else
-            brew install --cask "$CASK" --appdir=/Applications >/dev/null
+            brew install --cask "$CASK" --appdir=/Applications
         fi
         message_success "$CASK installed"
     else
@@ -149,7 +149,7 @@ install_application_via_app_store() {
     local APP_NAME=$2
     if ! mas list | grep "$APP_ID" &> /dev/null; then
         message_download "$APP_NAME"
-        mas install "$APP_ID" >/dev/null
+        mas install "$APP_ID"
         message_success "$APP_NAME installed"
     else
         message_nochange "$APP_NAME already installed"
@@ -161,7 +161,7 @@ install_npm_packages() {
     local NPM_NAME=$2
     if ! type -P "$NPM_NAME" &>/dev/null; then
         message_download "$NPM_ID"
-        npm install "$NPM_ID" --global --silent
+        npm install --global "$NPM_ID"
         message_success "$NPM_NAME installed"
     else
         message_nochange "$NPM_ID already installed"
