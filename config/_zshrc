@@ -1,0 +1,62 @@
+# shellcheck disable=SC2148
+# --- Initialized via macOS set-up script ---
+
+# Variables
+# ---------
+# shellcheck disable=SC2034
+ZSH_THEME="spaceship"
+ENABLE_CORRECTION="true"
+
+
+# Environment variables
+# ---------------------
+export HOMEBREW_NO_ANALYTICS=1 # Turn off Google Analytics collection from Homebrew
+
+
+# Alias: Files
+# ------------
+alias zshconfig="nano ~/.zshrc"
+
+
+# Alias: Applications
+# -------------------
+alias firefox="open -a 'Firefox Developer Edition'"
+alias chrome="open -a 'Google Chrome'"
+alias safari="open -a 'Safari'"
+
+
+# Utilities
+# ---------
+
+# AdoptOpenJDK (Homebrew cask)
+# Switch between JDK versions
+# Usage: jdk 11
+# (NB for JDK version 8: jdk 1.8)
+jdk() {
+    version=$1
+    # shellcheck disable=SC2155
+    export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
+    java -version
+}
+
+# Mozilla Developer Network (MDN) search
+# $1: Search term
+# $2 (optional): topic area, e.g. html
+mdn() {
+    MDN_URL="https://developer.mozilla.org/en-US/"
+    QUERY="${1:-}"
+    TOPIC="${2:-}"
+    url="$MDN_URL"
+    if [[ -n "$QUERY" ]]; then
+        url="${url}search?q=${QUERY}"
+        if [[ -n "$TOPIC" ]]; then
+            url="${url}&topic=${TOPIC}"
+        fi
+    fi
+    firefox "${url}"
+}
+
+
+# Set Spaceship ZSH as a prompt
+  autoload -U promptinit; promptinit
+  prompt spaceship
