@@ -75,6 +75,40 @@ ask_for_sudo() {
     message_success "Password cached"
 }
 
+create_zshrc() {
+    local ZSHRC_PROFILE="$HOME/.zshrc"
+    local _ZSHRC="$PWD/config/_zshrc"
+    if [[ ! -f "$ZSHRC_PROFILE" ]]; then
+        touch "$ZSHRC_PROFILE"
+        if [ -f "$_ZSHRC" ]; then
+            cat "$_ZSHRC" > "$ZSHRC_PROFILE"
+        else
+            printf "\n ⚠️  %s file not found.\n" "$_ZSHRC"
+            exit 1
+        fi
+    fi
+}
+
+append_to_zshrc() {
+    local text="$1"
+    local skip_new_line="${2:-0}"
+    local zshrc
+
+    if [[ -w "$HOME/.zshrc.local" ]]; then
+        zshrc="$HOME/.zshrc.local"
+    else
+        zshrc="$HOME/.zshrc"
+    fi
+
+    if ! grep -Fqs "$text" "$zshrc"; then
+        if [[ "$skip_new_line" -eq 1 ]]; then
+            printf "%s\n" "$text" >> "$zshrc"
+        else
+            printf "\n%s\n" "$text" >> "$zshrc"
+        fi
+    fi
+}
+
 install_brews() {
     local BREW=$1
     # `grep -x` flag to perform exact match: equivalent to regex ^(BREW)$

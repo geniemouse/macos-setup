@@ -92,6 +92,12 @@ message "Administator password required"
 ask_for_sudo
 
 
+# ================
+# CREATE: Profiles
+# ================
+create_zshrc
+
+
 # ===============
 # PROMPT: SSH key
 # ===============
