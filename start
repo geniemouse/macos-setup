@@ -26,6 +26,7 @@ APPS="$PWD/install/apps"
 BREWS="$PWD/install/brews"
 CASKS="$PWD/install/casks"
 NPM_PACKAGES="$PWD/install/npm"
+UTILITIES="$PWD/utilities/utils"
 
 
 # ============================================
@@ -72,15 +73,15 @@ printf "
 # =================================
 # LOAD UTILITIES: Warn if not found
 # =================================
-# Disable shellcheck 'Not following' source rule
 # shellcheck disable=SC1091
-if [ -f utils ] && . utils; then 
+# shellcheck source=utilities/utils
+if [ -f "$UTILITIES" ] && . "$UTILITIES"; then
     # Run system checks...
     create_log_file
     check_bash_version
     check_internet_connection
 else
-    printf "\n ⚠️  ./utils file not found.\n"
+    printf "\n ⚠️  %s file not found. Unable to continue set-up.\n" "$UTILITIES"
     exit 1
 fi
 
@@ -159,7 +160,7 @@ if [ -e "$BREWS" ]; then
         install_brews "$brew"
     done
 else
-    message "No additional config/brews requested."
+    message "No additional install/brews requested."
 fi
 
 
@@ -180,7 +181,7 @@ if [ -e "$CASKS" ]; then
         install_application_via_brew "$cask"
     done
 else
-    message "No additional config/casks requested."
+    message "No additional install/casks requested."
 fi
 
 
@@ -213,7 +214,7 @@ else
             message_fail "Please sign-in to the App Store first ...skipping"
         fi
     else
-        message "No additional config/apps requested."
+        message "No additional install/apps requested."
     fi
 fi
 
@@ -231,5 +232,5 @@ if [ -e "$NPM_PACKAGES" ]; then
         install_npm_packages "$KEY" "$VALUE"
     done
 else
-    message "No additional config/npm requested."
+    message "No additional install/npm requested."
 fi

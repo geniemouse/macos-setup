@@ -77,13 +77,14 @@ ask_for_sudo() {
 
 create_zshrc() {
     local ZSHRC_PROFILE="$HOME/.zshrc"
-    local _ZSHRC="$PWD/config/_zshrc"
+    local _ZSHRC="$PWD/profile/_zshrc"
     if [[ ! -f "$ZSHRC_PROFILE" ]]; then
         touch "$ZSHRC_PROFILE"
         if [ -f "$_ZSHRC" ]; then
             cat "$_ZSHRC" > "$ZSHRC_PROFILE"
+            message_success "$ZSHRC_PROFILE file created"
         else
-            printf "\n ⚠️  %s file not found.\n" "$_ZSHRC"
+            printf "\n ⚠️  Could not copy initial profile content from %s; file not found.\n" "$_ZSHRC" | tee -a "$logFile"
             exit 1
         fi
     fi
