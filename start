@@ -22,10 +22,10 @@ set -euo pipefail
 # =========
 # CONSTANTS
 # =========
-APPS="$PWD/config/apps"
-BREWS="$PWD/config/brews"
-CASKS="$PWD/config/casks"
-NPM_PACKAGES="$PWD/config/npm"
+APPS="$PWD/install/apps"
+BREWS="$PWD/install/brews"
+CASKS="$PWD/install/casks"
+NPM_PACKAGES="$PWD/install/npm"
 
 
 # ============================================
