@@ -1,7 +1,7 @@
 #!/bin/bash
 
 minBashVersion=3
-TIMESTAMP=$(date +%F)
+TIMESTAMP=$(date +%F-%H%M)
 logFile=./log/mac-setup-run-"$TIMESTAMP".log
 
 
