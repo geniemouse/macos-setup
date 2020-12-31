@@ -20,3 +20,4 @@
     - Include warnings about not installing Homebrew packages without checksums
     - How to review Homebrew formulae & casks for checksums (via their JSON file)
     - Explain about previously installed apps & Homebrew installation
+10. Sort out traps
