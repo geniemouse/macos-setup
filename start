@@ -202,14 +202,7 @@ if [ -x mas ]; then
 else
     if [ -e "$APPS" ]; then
         if mas account &>/dev/null; then
-            # Workaround for associative array in Bash 3
-            # https://stackoverflow.com/questions/6047648/bash-4-associative-arrays-error-declare-a-invalid-option
-            for app in $(<"$APPS")
-            do
-                KEY="${app%%::*}"
-                VALUE="${app##*::}"
-                install_application_via_app_store "$KEY" "$VALUE"
-            done
+            get_key_value_from_file "$APPS" install_application_via_app_store
         else
             message_fail "Please sign-in to the App Store first ...skipping"
         fi
@@ -225,12 +218,7 @@ fi
 chapter "Installing global npm packages..."
 
 if [ -e "$NPM_PACKAGES" ]; then
-    for pkg in $(<"$NPM_PACKAGES")
-    do
-        KEY="${pkg%%::*}"
-        VALUE="${pkg##*::}"
-        install_npm_packages "$KEY" "$VALUE"
-    done
+    get_key_value_from_file "$NPM_PACKAGES" install_npm_packages
 else
     message "No additional install/npm requested."
 fi

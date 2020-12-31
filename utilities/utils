@@ -5,6 +5,29 @@ TIMESTAMP=$(date +%F-%H%M)
 logFile=./log/mac-setup-run-"$TIMESTAMP".log
 
 
+# =======
+# Helpers
+# =======
+
+get_key_value_from_file() {
+    # Associative array in Bash 3
+    # https://stackoverflow.com/questions/6047648/bash-4-associative-arrays-error-declare-a-invalid-option
+    # Adapted to read line-by-line, so app names can include spaces
+    FILE=$1
+    ACTION=$2
+    DELIMITER=${3:-::}
+
+    grep -v '^ *#' < "$FILE" | while IFS= read -r line
+    do
+        KEY="${line%%$DELIMITER*}"
+        VALUE="${line##*$DELIMITER}"
+        # Pass key/value to the action callback
+        $ACTION "$KEY" "$VALUE"
+    done
+    unset IFS
+}
+
+
 # =========
 # Messaging
 # =========
