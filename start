@@ -25,6 +25,7 @@ set -euo pipefail
 APPS="$PWD/install/apps"
 BREWS="$PWD/install/brews"
 CASKS="$PWD/install/casks"
+MANUAL_INSTALLS="$PWD/install/manual"
 NPM_PACKAGES="$PWD/install/npm"
 UTILITIES="$PWD/utilities/utils"
 
@@ -220,5 +221,17 @@ chapter "Installing global npm packages..."
 if [ -e "$NPM_PACKAGES" ]; then
     get_key_value_from_file "$NPM_PACKAGES" install_npm_packages
 else
-    message "No additional install/npm requested."
+    message "No additional install/npm items requested."
+fi
+
+
+# =============================
+# Open manual install locations
+# =============================
+chapter "Manual download & install..."
+
+if [ -e "$MANUAL_INSTALLS" ]; then
+    if ask "Open manual downloads in browser?" N; then
+        get_key_value_from_file "$MANUAL_INSTALLS" open_manual_downloads
+    fi
 fi

@@ -9,6 +9,43 @@ logFile=./log/mac-setup-run-"$TIMESTAMP".log
 # Helpers
 # =======
 
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+
+    while true; do
+
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "[?] $1 [$prompt] "
+
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read -r reply </dev/tty
+
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+
+    done
+}
+
 get_key_value_from_file() {
     # Associative array in Bash 3
     # https://stackoverflow.com/questions/6047648/bash-4-associative-arrays-error-declare-a-invalid-option
@@ -189,4 +226,10 @@ install_npm_packages() {
     else
         message_nochange "$NPM_ID already installed"
     fi
+}
+
+open_manual_downloads() {
+    local URL=$1
+    local NAME=$2
+    echo "Opening browser tab: $NAME" && open "$URL"
 }
