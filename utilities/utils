@@ -182,7 +182,7 @@ install_application_via_app_store() {
 install_npm_packages() {
     local NPM_ID=$1
     local NPM_NAME=$2
-    if ! type -P "$NPM_NAME" &>/dev/null; then
+    if ! (type -P "$NPM_NAME" || npm list --global "$NPM_ID" | grep "$NPM_ID") &>/dev/null; then
         message_download "$NPM_ID"
         npm install --global "$NPM_ID"
         message_success "$NPM_NAME installed"
