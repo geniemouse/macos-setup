@@ -37,7 +37,7 @@ bash ./start
 ...or for optional file logging:
 
 ```bash
-bash ./start | tee -a ~/macos-setup-run_$(date +%F-%H%M).log
+bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F-%H%M).log
 ```
 
 ---

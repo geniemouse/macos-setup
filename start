@@ -16,7 +16,8 @@ set -euo pipefail
 # 5. Run Homebrew clean-up tasks
 # 6. Install Mac App Store applications
 # 7. Install npm global packages
-# 8. Anything else...?
+# 8. Prompt to open manual install browser tabs
+# 9. Anything else...?
 
 
 # =========
@@ -78,7 +79,6 @@ printf "
 # shellcheck source=utilities/utils
 if [ -f "$UTILITIES" ] && . "$UTILITIES"; then
     # Run system checks...
-    create_log_file
     check_bash_version
     check_internet_connection
 else

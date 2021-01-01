@@ -1,8 +1,6 @@
 #!/bin/bash
 
 minBashVersion=3
-TIMESTAMP=$(date +%F-%H%M)
-logFile=./log/mac-setup-run-"$TIMESTAMP".log
 
 
 # =======
@@ -64,25 +62,30 @@ get_key_value_from_file() {
     unset IFS
 }
 
+create_file() {
+    FULLPATH=$1
+    DIRECTORY=${FULLPATH%/*}
+    FILENAME=${FULLPATH##*/}
+
+    if [[ ! -f $FULLPATH ]]; then
+        mkdir -p "$DIRECTORY"
+        touch "$DIRECTORY/$FILENAME"
+        message_success "$FULLPATH file created"
+    fi
+}
+
 
 # =========
 # Messaging
 # =========
 
-create_log_file() {
-    if [[ ! -e logFile ]]; then
-        mkdir -p ./log
-        touch ./log/mac-setup-run-"$TIMESTAMP".log
-    fi
-}
-
 chapter() {
-    printf "\n%s\n" "$1" | tee -a "$logFile"
+    printf "\n%s\n" "$1"
     printf "========================================\n"
 }
 
 message() {
-    printf "%s\n" "$1" | tee -a "$logFile"
+    printf "%s\n" "$1"
 }
 
 message_download() {
@@ -138,13 +141,13 @@ ask_for_sudo() {
 create_zshrc() {
     local ZSHRC_PROFILE="$HOME/.zshrc"
     local _ZSHRC="$PWD/profile/_zshrc"
-    if [[ ! -f "$ZSHRC_PROFILE" ]]; then
-        touch "$ZSHRC_PROFILE"
+
+    if [[ $(create_file "$ZSHRC_PROFILE") ]]; then
         if [ -f "$_ZSHRC" ]; then
             cat "$_ZSHRC" > "$ZSHRC_PROFILE"
             message_success "$ZSHRC_PROFILE file created"
         else
-            printf "\n ⚠️  Could not copy initial profile content from %s; file not found.\n" "$_ZSHRC" | tee -a "$logFile"
+            printf "\n ⚠️  Could not copy initial profile content from %s; file not found.\n" "$_ZSHRC"
             exit 1
         fi
     fi
