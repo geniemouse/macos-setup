@@ -235,3 +235,13 @@ if [ -e "$MANUAL_INSTALLS" ]; then
         get_key_value_from_file "$MANUAL_INSTALLS" open_manual_downloads
     fi
 fi
+
+
+# ===========
+# END MESSAGE
+# ===========
+printf "
+=================================================
+******* macOS set-up script run completed *******
+=================================================
+\n"
