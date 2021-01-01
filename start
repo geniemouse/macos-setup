@@ -16,8 +16,8 @@ set -euo pipefail
 # 5. Run Homebrew clean-up tasks
 # 6. Install Mac App Store applications
 # 7. Install npm global packages
-# 8. Prompt to open manual install browser tabs
-# 9. Anything else...?
+# 8. Set global .gitconfig details
+# 9. Open sites for manual downloads
 
 
 # =========
@@ -226,9 +226,22 @@ fi
 
 
 # =============================
-# Open manual install locations
+# Set global .gitconfig details
 # =============================
-chapter "Manual download & install..."
+if type -P "git" &>/dev/null; then
+    GIT_CONFIG="$HOME/.gitconfig"
+
+    if [[ $(create_file "$GIT_CONFIG") ]]; then
+        chapter "Set global .gitconfig details..."
+        set_global_gitconfig_details
+    fi
+fi
+
+
+# ===============================
+# Open sites for manual downloads
+# ===============================
+chapter "Manual downloads..."
 
 if [ -e "$MANUAL_INSTALLS" ]; then
     if ask "Open manual downloads in browser?" N; then

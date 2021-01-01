@@ -100,6 +100,10 @@ message_nochange() {
     message "[-] $1 ...skipping"
 }
 
+message_question() {
+    message "[?] $1"
+}
+
 message_success() {
     message "[✓] $1"
 }
@@ -235,4 +239,17 @@ open_manual_downloads() {
     local URL=$1
     local NAME=$2
     echo "Opening browser tab: $NAME" && open "$URL"
+}
+
+set_global_gitconfig_details() {
+    message "Add your .gitconfig username & email:"
+    # Username
+    message_question "What name?" && read -r NAME
+    git config --global user.name "$NAME"
+    # Email
+    message_question "What email address?" && read -r EMAIL
+    git config --global user.email "$EMAIL"
+    # Output
+    message_success "Saved .gitconfig details"
+    git config --global --list
 }
