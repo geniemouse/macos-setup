@@ -242,6 +242,9 @@ open_manual_downloads() {
 }
 
 set_global_gitconfig_details() {
+    # Set default global rebase approach
+    git config --global pull.rebase false
+    # ---
     message "Add your .gitconfig username & email:"
     # Username
     message_question "What name?" && read -r NAME
