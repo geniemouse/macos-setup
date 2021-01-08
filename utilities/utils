@@ -253,3 +253,16 @@ set_global_gitconfig_details() {
     message_success "Saved .gitconfig details"
     git config --global --list
 }
+
+create_maven_settings_file() {
+    local MVN_SETTINGS="$HOME/.m2/settings.xml"
+    local _M2_SETTINGS_XML="$PWD/profile/_m2_settings.xml"
+
+    if [ -f "$_M2_SETTINGS_XML" ]; then
+        cat "$_M2_SETTINGS_XML" > "$MVN_SETTINGS"
+        message_success "$MVN_SETTINGS file created"
+    else
+        printf "\n ⚠️  Could not copy initial profile content from %s; file not found.\n" "$_M2_SETTINGS_XML"
+        exit 1
+    fi
+}

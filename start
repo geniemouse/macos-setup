@@ -238,6 +238,19 @@ if type -P "git" &>/dev/null; then
 fi
 
 
+# =======================
+# Set global .m2 settings
+# =======================
+if type -P "mvn" &>/dev/null; then
+    MVN_SETTINGS="$HOME/.m2/settings.xml"
+
+    if [[ $(create_file "$MVN_SETTINGS") ]]; then
+        chapter "Create Maven .m2/settings.xml file..."
+        create_maven_settings_file
+    fi
+fi
+
+
 # ===============================
 # Open sites for manual downloads
 # ===============================
