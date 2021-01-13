@@ -55,3 +55,11 @@ mdn() {
     fi
     firefox "${url}"
 }
+
+# Launch AEM instance (uncomment when needed)
+# aem() {
+#     echo "** Starting local AEM 6.5 Author instance **"
+#     cd ~/Adobe/AEM6.5/Author/
+#     jdk 11
+#     java -Xmx1024M -jar AEM6.5-author-p4502.jar
+# }
