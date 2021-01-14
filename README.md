@@ -12,6 +12,7 @@
   - [CLI tools & utilities](#cli-tools--utilities)
   - [Applications](#applications)
   - [Fonts & themes](#fonts--themes)
+- [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -103,3 +104,15 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 ### Fonts & themes
 
 // @todo.
+
+---
+
+## Acknowledgements
+
+Inspiration, code and other things from the following people.
+
+- [Mina Markham's Formation script](https://github.com/minamarkham/formation)
+- [thoughbot's Laptop](https://github.com/thoughtbot/laptop/)
+- Julia Evans for ["Bite Size Bash"](https://wizardzines.com/) and other zines
+
+Go and checkout their fine work.
