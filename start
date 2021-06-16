@@ -112,8 +112,8 @@ create_zshrc
 # =====================
 chapter "Installing dependencies..."
 
-# Xcode
-# =====
+# Xcode CLT
+# =========
 if type xcode-select >&- && 
     xpath=$( xcode-select --print-path ) &&
     test -d "${xpath}" && test -x "${xpath}"; then
@@ -130,6 +130,21 @@ fi
 # if [ ! -d "$HOME/.bin/" ]; then
 #     mkdir "$HOME/.bin"
 # fi
+
+
+# NVM/Node
+# ========
+if [ -x nvm ]; then
+	message "Installing NVM/Node..."
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+	message_success "NVM/Node installed"
+	message "Installing latest Node..."
+	nvm install node
+	nvm use node
+	nvm run node --version
+else
+	message_nochange "NVM/Node already installed"
+fi
 
 
 # Homebrew
