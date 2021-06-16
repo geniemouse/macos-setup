@@ -79,6 +79,9 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 ### Dependencies
 
 -   [Xcode Developer Tools](https://developer.apple.com/xcode/) from Apple
+-   [NVM](https://github.com/nvm-sh/nvm) the [Node](https://nodejs.org/en/) version manager
+    -   Allows use of different `node`/`npm` JavaScript build environments between projects
+    -   Note: The Homebrew package is not supported by NVM team; using the official channel instead
 -   [Homebrew](https://brew.sh/) macOS/Linux package manager
 
 ### Package managers & build tools
@@ -86,7 +89,6 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 -   [AdoptOpenJDK](https://adoptopenjdk.net/) for switching between different Java JDK versions
 -   [Git](https://git-scm.com/) for version control
 -   [Maven](https://maven.apache.org/) for project building
--   [Node](https://nodejs.org/en/) for `npm` & JavaScript-based project building
 -   [Wget](https://www.gnu.org/software/wget/) useful tool for getting internet files
 
 ### CLI tools & utilities
