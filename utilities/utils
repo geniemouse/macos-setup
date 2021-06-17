@@ -231,7 +231,9 @@ install_npm_packages() {
         npm install --global "$NPM_ID"
         message_success "$NPM_NAME installed"
     else
-        message_nochange "$NPM_ID already installed"
+        message_nochange "$NPM_ID already installed. Trying update..."
+        npm update --global "$NPM_ID"
+        message_success "$NPM_NAME updated"
     fi
 }
 
