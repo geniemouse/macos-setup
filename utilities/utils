@@ -89,7 +89,7 @@ message() {
 }
 
 message_download() {
-    message "\n[↓] Installing $1..."
+    message "[↓] Installing $1..."
 }
 
 message_fail() {
@@ -105,7 +105,7 @@ message_question() {
 }
 
 message_success() {
-    message "\n[✓] $1"
+    message "[✓] $1"
 }
 
 
