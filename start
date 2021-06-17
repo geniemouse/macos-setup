@@ -117,11 +117,21 @@ chapter "Installing dependencies..."
 if type xcode-select >&- && 
     xpath=$( xcode-select --print-path ) &&
     test -d "${xpath}" && test -x "${xpath}"; then
-    message_nochange "Xcode already installed"
+    message_nochange "Xcode Command Line Tools already installed."
 else
-    message "Installing Xcode..."
+    message "Installing Xcode Command Line Tools..."
     xcode-select --install
     message_success "Xcode installed"
+    printf "
+    ================================================
+    ****** Xcode Command Line Tools installed ******
+    ================================================
+    Run script again to continue provisioning
+    ------------------------------------------------
+    \n"
+    # Ending script here allows Xcode CLT to fully install dependencies
+    # before attempting NVM & Homebrew
+    exit 0
 fi
 
 
