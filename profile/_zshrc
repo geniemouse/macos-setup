@@ -11,7 +11,9 @@ ENABLE_CORRECTION="true"
 # Environment variables
 # ---------------------
 export HOMEBREW_NO_ANALYTICS=1 # Turn off Google Analytics collection from Homebrew
-
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Alias: Files
 # ------------
