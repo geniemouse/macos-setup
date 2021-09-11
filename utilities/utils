@@ -231,7 +231,9 @@ install_npm_packages() {
         npm install --global "$NPM_ID"
         message_success "$NPM_NAME installed"
     else
-        message_nochange "$NPM_ID already installed"
+        message_nochange "$NPM_ID already installed. Trying update..."
+        npm update --global "$NPM_ID"
+        message_success "$NPM_NAME updated"
     fi
 }
 
@@ -242,7 +244,9 @@ open_manual_downloads() {
 }
 
 set_global_gitconfig_details() {
-    # Set default global rebase approach
+    # Set global default branch name
+    git config --global init.defaultBranch main
+    # Set global default rebase approach
     git config --global pull.rebase false
     # ---
     message "Add your .gitconfig username & email:"

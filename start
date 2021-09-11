@@ -90,7 +90,7 @@ fi
 # ================
 # PROMPT: Password
 # ================
-message "Administator password required"
+message "Administrator password required"
 ask_for_sudo
 
 
@@ -112,16 +112,26 @@ create_zshrc
 # =====================
 chapter "Installing dependencies..."
 
-# Xcode
-# =====
+# Xcode CLT
+# =========
 if type xcode-select >&- && 
     xpath=$( xcode-select --print-path ) &&
     test -d "${xpath}" && test -x "${xpath}"; then
-    message_nochange "Xcode already installed"
+    message_nochange "Xcode Command Line Tools already installed."
 else
-    message "Installing Xcode..."
+    message "Installing Xcode Command Line Tools..."
     xcode-select --install
     message_success "Xcode installed"
+    printf "
+    ================================================
+    ****** Xcode Command Line Tools installed ******
+    ================================================
+    Run script again to continue provisioning
+    ------------------------------------------------
+    \n"
+    # Ending script here allows Xcode CLT to fully install dependencies
+    # before attempting NVM & Homebrew
+    exit 0
 fi
 
 
@@ -130,6 +140,29 @@ fi
 # if [ ! -d "$HOME/.bin/" ]; then
 #     mkdir "$HOME/.bin"
 # fi
+
+
+# NVM/Node
+# ========
+# shellcheck disable=SC1091
+if ! [ -x "$(command -v nvm)" ]; then
+    # Install nvm
+    message "Installing NVM/Node..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+    # Ready nvm command for immediate use
+    # Note: These lines are in the user profile
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    message_success "NVM/Node installed"
+    # Install node & npm
+    message "Installing latest Node..."
+    nvm install node
+    nvm use node
+    nvm run node --version
+else
+    message_nochange "NVM/Node already installed"
+fi
 
 
 # Homebrew
@@ -267,7 +300,9 @@ fi
 # END MESSAGE
 # ===========
 printf "
-=================================================
-******* macOS set-up script run completed *******
-=================================================
+===============================================
+****** macOS set-up script run completed ******
+===============================================
 \n"
+
+exit 0
