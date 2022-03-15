@@ -117,17 +117,16 @@ chapter "Installing dependencies..."
 if type xcode-select >&- && 
     xpath=$( xcode-select --print-path ) &&
     test -d "${xpath}" && test -x "${xpath}"; then
-    message_nochange "Xcode Command Line Tools already installed."
+    printf "\n"
+    message_nochange "Xcode Command Line Tools already installed"
 else
+    printf "\n"
     message "Installing Xcode Command Line Tools..."
     xcode-select --install
-    message_success "Xcode installed"
     printf "
-    ================================================
-    ****** Xcode Command Line Tools installed ******
-    ================================================
-    Run script again to continue provisioning
-    ------------------------------------------------
+    =============================================================
+    * Once completed, run script again to continue provisioning *
+    =============================================================
     \n"
     # Ending script here allows Xcode CLT to fully install dependencies
     # before attempting NVM & Homebrew
@@ -147,6 +146,7 @@ fi
 # shellcheck disable=SC1091
 if ! [ -x "$(command -v nvm)" ]; then
     # Install nvm
+    printf "\n"
     message "Installing NVM/Node..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
     # Ready nvm command for immediate use
@@ -156,11 +156,13 @@ if ! [ -x "$(command -v nvm)" ]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
     message_success "NVM/Node installed"
     # Install node & npm
+    printf "\n"
     message "Installing latest Node..."
     nvm install node
     nvm use node
     nvm run node --version
 else
+    printf "\n"
     message_nochange "NVM/Node already installed"
 fi
 
@@ -168,15 +170,18 @@ fi
 # Homebrew
 # ========
 if ! [ -x "$(command -v brew)" ]; then
+    printf "\n"
     message "Installing Homebrew..."
     curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh' | bash
     export PATH="/usr/local/bin:$PATH"
     message_success "Homebrew package manager installed"
 else
+    printf "\n"
     message_nochange "Homebrew package manager already installed"
 fi
 
 if brew list --formula | grep -Fq brew-cask; then
+    printf "\n"
     message "Uninstalling old Homebrew-Cask..."
     brew uninstall --force brew-cask
     message_success "Homebrew-Cask uninstalled"
@@ -291,10 +296,10 @@ chapter "Manual downloads..."
 
 if [ -e "$MANUAL_INSTALLS" ]; then
     if ask "Open manual downloads in browser?" N; then
-        echo "\nOpening browser tabs:\n"
+        printf "\nOpening browser tabs:\n"
         get_key_value_from_file "$MANUAL_INSTALLS" open_manual_downloads
     else
-        echo "\nYou have chosen not to open browser tabs at this time.\n"
+        printf "\nYou have chosen not to open browser tabs at this time.\n"
     fi
 fi
 

@@ -89,7 +89,8 @@ message() {
 }
 
 message_download() {
-    message "\n[↓] Installing $1...\n"
+    printf "\n"
+    message "[↓] Installing $1..."
 }
 
 message_fail() {
@@ -257,7 +258,8 @@ set_global_gitconfig_details() {
     message_question "What email address?" && read -r EMAIL
     git config --global user.email "$EMAIL"
     # Output
-    message_success "Saved .gitconfig details\n"
+    message_success "Saved .gitconfig details"
+    printf "\n"
     git config --global --list
 }
 
