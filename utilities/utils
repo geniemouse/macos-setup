@@ -89,7 +89,7 @@ message() {
 }
 
 message_download() {
-    message "[↓] Installing $1..."
+    message "\n[↓] Installing $1...\n"
 }
 
 message_fail() {
@@ -240,7 +240,7 @@ install_npm_packages() {
 open_manual_downloads() {
     local URL=$1
     local NAME=$2
-    echo "Opening browser tab: $NAME" && open "$URL"
+    echo "-- $NAME" && open "$URL"
 }
 
 set_global_gitconfig_details() {
@@ -257,7 +257,7 @@ set_global_gitconfig_details() {
     message_question "What email address?" && read -r EMAIL
     git config --global user.email "$EMAIL"
     # Output
-    message_success "Saved .gitconfig details"
+    message_success "Saved .gitconfig details\n"
     git config --global --list
 }
 

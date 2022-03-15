@@ -291,7 +291,10 @@ chapter "Manual downloads..."
 
 if [ -e "$MANUAL_INSTALLS" ]; then
     if ask "Open manual downloads in browser?" N; then
+        echo "\nOpening browser tabs:\n"
         get_key_value_from_file "$MANUAL_INSTALLS" open_manual_downloads
+    else
+        echo "\nYou have chosen not to open browser tabs at this time.\n"
     fi
 fi
 
