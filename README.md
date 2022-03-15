@@ -86,9 +86,10 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 
 ### Package managers & build tools
 
--   [AdoptOpenJDK](https://adoptopenjdk.net/) for switching between different Java JDK versions
+-   [Eclipse Temurin](https://adoptium.net/) for switching between different Java JDK versions
 -   [Git](https://git-scm.com/) for version control
 -   [Maven](https://maven.apache.org/) for project building
+
 -   [Wget](https://www.gnu.org/software/wget/) useful tool for getting internet files
 
 ### CLI tools & utilities

@@ -195,10 +195,10 @@ install_application_via_brew() {
     if test ! "$(brew list --cask | grep -x "$CASK")"; then
         message_download "$CASK"
         # Don't install open JDK casks in Applications
-        if [[ "$CASK" == "adoptopenjdk"* ]]; then
-            if [[ "$CASK" == "adoptopenjdk" ]]; then
+        if [[ "$CASK" == "temurin"* ]]; then
+            if [[ "$CASK" == "temurin" ]]; then
                 brew install --cask "$CASK"
-                brew tap adoptopenjdk/openjdk
+                brew tap homebrew/cask-versions
             else
                 brew install --cask "$CASK"
             fi

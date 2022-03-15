@@ -1,7 +1,4 @@
 1password
-adoptopenjdk
-adoptopenjdk11
-adoptopenjdk8
 alfred
 brave-browser
 dash
@@ -13,6 +10,8 @@ opera
 postman
 renamer
 sublime-text
+temurin
+temurin11
 tor-browser
 vagrant
 visual-studio-code
