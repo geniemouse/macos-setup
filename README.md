@@ -184,7 +184,7 @@ Fonts are installed by tapping [`homebrew/cask-fonts`](https://github.com/Homebr
 
 On the command-line, run the following to see more information about font recipes:
 
-1. Currently installed font recipes: `brew list --cask "/font-/"`
+1. Currently installed font recipes: `brew list --cask | grep "font-*"`
 2. Full list available to install: `brew search --cask "/font-/"`
 
 ---
