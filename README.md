@@ -6,9 +6,7 @@
 - [Install](#install)
 - [Run](#run)
 - [What gets installed?](#what-gets-installed)
-  - [Dependencies](#dependencies)
-  - [Package managers & build tools](#package-managers--build-tools)
-  - [CLI tools & utilities](#cli-tools--utilities)
+  - [Command-line](#command-line)
   - [Applications](#applications)
   - [Fonts & themes](#fonts--themes)
 - [Known issues](#known-issues)
@@ -73,6 +71,8 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 ---
 
 # What gets installed?
+
+## Command-line
 
 <details>
     <summary>Dependencies</summary>
