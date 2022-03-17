@@ -13,11 +13,12 @@ set -euo pipefail
 # 2. SSH key setup
 # 3. Install dependencies: Xcode, Homebrew
 # 4. Install Homebrew brews (also runs `brew update`) and casks
-# 5. Run Homebrew clean-up tasks
-# 6. Install Mac App Store applications
-# 7. Install npm global packages
-# 8. Set global .gitconfig details
-# 9. Open sites for manual downloads
+# 5. Install fonts (via Homebrew)
+# 6. Run Homebrew clean-up tasks
+# 7. Install Mac App Store applications
+# 8. Install npm global packages
+# 9. Set global .gitconfig details
+# 10. Open sites for manual downloads
 
 
 # =========
@@ -26,6 +27,7 @@ set -euo pipefail
 APPS="$PWD/install/apps"
 BREWS="$PWD/install/brews"
 CASKS="$PWD/install/casks"
+FONTS="$PWD/install/fonts"
 MANUAL_INSTALLS="$PWD/install/manual"
 NPM_PACKAGES="$PWD/install/npm"
 UTILITIES="$PWD/utilities/utils"
@@ -39,6 +41,7 @@ warn_script_failure() {
     test $FAILURE_CODE -ne 0 && message "[𝘅] macOS set-up script failed." >&2
     exit $FAILURE_CODE
 }
+
 
 trap warn_script_failure EXIT
 
@@ -199,7 +202,7 @@ if [ -e "$BREWS" ]; then
         install_brews "$brew"
     done
 else
-    message "No additional install/brews requested."
+    message "No additional command-line utilities requested."
 fi
 
 
@@ -220,7 +223,21 @@ if [ -e "$CASKS" ]; then
         install_application_via_brew "$cask"
     done
 else
-    message "No additional install/casks requested."
+    message "No additional applications requested."
+fi
+
+
+# =======================
+# INSTALL: Homebrew Fonts
+# =======================
+chapter "Installing fonts via Homebrew..."
+
+if [ -e "$FONTS" ]; then
+    message "Updating Homebrew fonts cask..."
+    brew tap homebrew/cask-fonts
+    get_key_value_from_file "$FONTS" install_fonts
+else
+    message "No additional fonts requested."
 fi
 
 
@@ -246,7 +263,7 @@ else
             message_fail "Please sign-in to the App Store first ...skipping"
         fi
     else
-        message "No additional install/apps requested."
+        message "No additional App Store applications requested."
     fi
 fi
 
