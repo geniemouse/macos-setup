@@ -161,7 +161,6 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 <details>
     <summary>Utilities & services</summary>
 
--   [1Password](https://1password.com) cross-platform password manager
 -   [Alfred](https://www.alfredapp.com) macOS helper for super-charged automation & shortcuts
 -   [Encrypto](https://macpaw.com/encrypto) encrypting files & folders
 -   [Microsoft Remote Desktop](https://www.microsoft.com/en-us/store/p/microsoft-remote-desktop/9wzdncrfj3ps)
