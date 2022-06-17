@@ -13,11 +13,12 @@ set -euo pipefail
 # 2. SSH key setup
 # 3. Install dependencies: Xcode, Homebrew
 # 4. Install Homebrew brews (also runs `brew update`) and casks
-# 5. Run Homebrew clean-up tasks
-# 6. Install Mac App Store applications
-# 7. Install npm global packages
-# 8. Set global .gitconfig details
-# 9. Open sites for manual downloads
+# 5. Install fonts (via Homebrew)
+# 6. Run Homebrew clean-up tasks
+# 7. Install Mac App Store applications
+# 8. Install npm global packages
+# 9. Set global .gitconfig details
+# 10. Open sites for manual downloads
 
 
 # =========
@@ -26,6 +27,7 @@ set -euo pipefail
 APPS="$PWD/install/apps"
 BREWS="$PWD/install/brews"
 CASKS="$PWD/install/casks"
+FONTS="$PWD/install/fonts"
 MANUAL_INSTALLS="$PWD/install/manual"
 NPM_PACKAGES="$PWD/install/npm"
 UTILITIES="$PWD/utilities/utils"
@@ -39,6 +41,7 @@ warn_script_failure() {
     test $FAILURE_CODE -ne 0 && message "[𝘅] macOS set-up script failed." >&2
     exit $FAILURE_CODE
 }
+
 
 trap warn_script_failure EXIT
 
@@ -117,17 +120,16 @@ chapter "Installing dependencies..."
 if type xcode-select >&- && 
     xpath=$( xcode-select --print-path ) &&
     test -d "${xpath}" && test -x "${xpath}"; then
-    message_nochange "Xcode Command Line Tools already installed."
+    printf "\n"
+    message_nochange "Xcode Command Line Tools already installed"
 else
+    printf "\n"
     message "Installing Xcode Command Line Tools..."
     xcode-select --install
-    message_success "Xcode installed"
     printf "
-    ================================================
-    ****** Xcode Command Line Tools installed ******
-    ================================================
-    Run script again to continue provisioning
-    ------------------------------------------------
+    =============================================================
+    * Once completed, run script again to continue provisioning *
+    =============================================================
     \n"
     # Ending script here allows Xcode CLT to fully install dependencies
     # before attempting NVM & Homebrew
@@ -147,6 +149,7 @@ fi
 # shellcheck disable=SC1091
 if ! [ -x "$(command -v nvm)" ]; then
     # Install nvm
+    printf "\n"
     message "Installing NVM/Node..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
     # Ready nvm command for immediate use
@@ -156,11 +159,13 @@ if ! [ -x "$(command -v nvm)" ]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
     message_success "NVM/Node installed"
     # Install node & npm
+    printf "\n"
     message "Installing latest Node..."
     nvm install node
     nvm use node
     nvm run node --version
 else
+    printf "\n"
     message_nochange "NVM/Node already installed"
 fi
 
@@ -168,15 +173,18 @@ fi
 # Homebrew
 # ========
 if ! [ -x "$(command -v brew)" ]; then
+    printf "\n"
     message "Installing Homebrew..."
     curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh' | bash
     export PATH="/usr/local/bin:$PATH"
     message_success "Homebrew package manager installed"
 else
+    printf "\n"
     message_nochange "Homebrew package manager already installed"
 fi
 
 if brew list --formula | grep -Fq brew-cask; then
+    printf "\n"
     message "Uninstalling old Homebrew-Cask..."
     brew uninstall --force brew-cask
     message_success "Homebrew-Cask uninstalled"
@@ -194,7 +202,7 @@ if [ -e "$BREWS" ]; then
         install_brews "$brew"
     done
 else
-    message "No additional install/brews requested."
+    message "No additional command-line utilities requested."
 fi
 
 
@@ -215,7 +223,21 @@ if [ -e "$CASKS" ]; then
         install_application_via_brew "$cask"
     done
 else
-    message "No additional install/casks requested."
+    message "No additional applications requested."
+fi
+
+
+# =======================
+# INSTALL: Homebrew Fonts
+# =======================
+chapter "Installing fonts via Homebrew..."
+
+if [ -e "$FONTS" ]; then
+    message "Updating Homebrew fonts cask..."
+    brew tap homebrew/cask-fonts
+    get_key_value_from_file "$FONTS" install_fonts
+else
+    message "No additional fonts requested."
 fi
 
 
@@ -241,7 +263,7 @@ else
             message_fail "Please sign-in to the App Store first ...skipping"
         fi
     else
-        message "No additional install/apps requested."
+        message "No additional App Store applications requested."
     fi
 fi
 
@@ -291,7 +313,10 @@ chapter "Manual downloads..."
 
 if [ -e "$MANUAL_INSTALLS" ]; then
     if ask "Open manual downloads in browser?" N; then
+        printf "\nOpening browser tabs:\n"
         get_key_value_from_file "$MANUAL_INSTALLS" open_manual_downloads
+    else
+        printf "\nYou have chosen not to open browser tabs at this time.\n"
     fi
 fi
 

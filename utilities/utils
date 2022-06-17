@@ -89,6 +89,7 @@ message() {
 }
 
 message_download() {
+    printf "\n"
     message "[↓] Installing $1..."
 }
 
@@ -195,10 +196,10 @@ install_application_via_brew() {
     if test ! "$(brew list --cask | grep -x "$CASK")"; then
         message_download "$CASK"
         # Don't install open JDK casks in Applications
-        if [[ "$CASK" == "adoptopenjdk"* ]]; then
-            if [[ "$CASK" == "adoptopenjdk" ]]; then
+        if [[ "$CASK" == "temurin"* ]]; then
+            if [[ "$CASK" == "temurin" ]]; then
                 brew install --cask "$CASK"
-                brew tap adoptopenjdk/openjdk
+                brew tap homebrew/cask-versions
             else
                 brew install --cask "$CASK"
             fi
@@ -228,19 +229,45 @@ install_npm_packages() {
     local NPM_NAME=$2
     if ! (type -P "$NPM_NAME" || npm list --global "$NPM_ID" | grep "$NPM_ID") &>/dev/null; then
         message_download "$NPM_ID"
-        npm install --global "$NPM_ID"
+        npm install --location=global "$NPM_ID"
         message_success "$NPM_NAME installed"
     else
         message_nochange "$NPM_ID already installed. Trying update..."
-        npm update --global "$NPM_ID"
+        npm update --location=global "$NPM_ID"
         message_success "$NPM_NAME updated"
     fi
 }
 
+
+# Releases object returned in format:
+# {"id":3622206,"tag_name":"foo-1.0.0.11",...}
+# Extract `tag_name`.
+# get_github_version() {
+#     echo $1 | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/'
+# }
+
+
+# Install named typefaces via Homebrew/Nerd Fonts
+install_fonts() {
+    local FONT=$1
+    local FONT_NAME=$2
+
+    # `grep -x` flag to perform exact match: equivalent to regex ^(FONT)$
+    if test ! "$(brew list --cask | grep -x "font-$FONT")"; then
+        message_download "$FONT_NAME"
+        # Installs into `~/Library/Fonts directory`
+        brew install --cask "font-$FONT"
+        message_success "$FONT_NAME installed"
+    else
+        message_nochange "$FONT_NAME already installed and up-to-date"
+    fi
+}
+
+
 open_manual_downloads() {
     local URL=$1
     local NAME=$2
-    echo "Opening browser tab: $NAME" && open "$URL"
+    echo "-- $NAME" && open "$URL"
 }
 
 set_global_gitconfig_details() {
@@ -258,6 +285,7 @@ set_global_gitconfig_details() {
     git config --global user.email "$EMAIL"
     # Output
     message_success "Saved .gitconfig details"
+    printf "\n"
     git config --global --list
 }
 

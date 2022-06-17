@@ -31,10 +31,10 @@ alias safari="open -a 'Safari'"
 # Utilities
 # ---------
 
-# AdoptOpenJDK (Homebrew cask)
+# Eclipse Temurin project (Homebrew cask); formerly AdoptOpenJDK
 # Switch between JDK versions
 # Usage: jdk 11
-# (NB for JDK version 8: jdk 1.8)
+# (NB for JDK version 8 - if distro installed: jdk 1.8)
 jdk() {
     version=$1
     # shellcheck disable=SC2155
