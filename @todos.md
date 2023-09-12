@@ -9,4 +9,6 @@
     - VirtualMachines
 4. See if installation of brews & casks can detect presence of checksum?
 5. Add `mas outdated` command on secondary run to see if anything previously installed is no longer available in Apple App Store
-5. Sort out traps
+6. Add [Bun](https://bun.sh/) JavaScript runtime to try as faster/more complete project toolkit replacement for `npm`?
+   6.1 Install command `curl -fsSL https://bun.sh/install | bash`
+7. Sort out traps

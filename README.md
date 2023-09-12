@@ -196,7 +196,7 @@ _Homebrew_ can't overwrite applications previously installed by other methods.
 
 ## Mac App Store command-line interface & macOS Monterey
 
-The _Mac App Store_ command-line interface (`mas`) will fail to correctly recognise the _App Store_'s logged-in status on systems running _macOS Monterey_. This is a [known issue](https://github.com/mas-cli/mas/issues/417) to the project and is being worked on. In the meantime, _App Store_ purchases will have to be installed directly via the _App Store_ application.
+The _Mac App Store_ command-line interface (`mas`) will fail to correctly recognise the _App Store_'s logged-in status on systems running macOS 12.x.x (_Monterey_), and above. This is a [known issue](https://github.com/mas-cli/mas/issues/417) to the project. In the meantime, _App Store_ purchases may have to be installed directly via the _App Store_ application. Repeated runs of this setup script will update any installed apps.
 
 ---
 
