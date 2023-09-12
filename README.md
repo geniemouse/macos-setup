@@ -164,9 +164,9 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 -   [Alfred](https://www.alfredapp.com) macOS helper for super-charged automation & shortcuts
 -   [Encrypto](https://macpaw.com/encrypto) encrypting files & folders
 -   [Microsoft Remote Desktop](https://www.microsoft.com/en-us/store/p/microsoft-remote-desktop/9wzdncrfj3ps)
+-   [Pins for Pinboard](https://get-pins.app) macOS client for the [Pinboard](https://pinboard.in) bookmarking service
 -   [Reeder 5](https://www.reederapp.com) RSS reader
 -   [Renamer](https://renamer.com) batch file renaming tool
--   [Spillo](https://bananafishsoftware.com/products/spillo/) macOS client for the [Pinboard](https://pinboard.in) bookmarking service
 -   [The Unarchiver](https://macpaw.com/the-unarchiver) more powerful archive unpacking tool
 -   [TunnelBear](https://www.tunnelbear.com) VPN service for privacy or testing geolocation code
 -   [VLC](https://www.videolan.org) media player
