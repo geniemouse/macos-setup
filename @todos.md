@@ -8,5 +8,5 @@
     - Repos
     - VirtualMachines
 4. See if installation of brews & casks can detect presence of checksum?
-5. Add `mas outdated` and `mas upgrade` commands on secondary run to update anything outstanding from Apple App Store
+5. Add `mas outdated` command on secondary run to see if anything previously installed is no longer available in Apple App Store
 5. Sort out traps
