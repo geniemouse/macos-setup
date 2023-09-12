@@ -98,7 +98,7 @@ message_fail() {
 }
 
 message_nochange() {
-    message "[-] $1 ...skipping"
+    message "[-] $1"
 }
 
 message_question() {
@@ -230,11 +230,11 @@ install_npm_packages() {
     local NPM_NAME=$2
     if ! (type -P "$NPM_NAME" || npm list --global "$NPM_ID" | grep "$NPM_ID") &>/dev/null; then
         message_download "$NPM_ID"
-        npm install --location=global "$NPM_ID"
+        npm install --no-fund --location=global "$NPM_ID"
         message_success "$NPM_NAME installed"
     else
-        message_nochange "$NPM_ID already installed. Trying update..."
-        npm update --location=global "$NPM_ID"
+        message_nochange "$NPM_NAME already installed. Run update..."
+        npm update --no-fund --timing --silent --location=global "$NPM_ID"
         message_success "$NPM_NAME updated"
     fi
 }
