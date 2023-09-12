@@ -154,7 +154,6 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 -   [Numbers](https://www.apple.com/numbers/) Apple spreadsheet software
 -   [Pages](https://www.apple.com/pages/) Apple word processing software
 -   [Slack](https://slack.com) team/project communication
--   [Tweetbot](https://tapbots.com/tweetbot/) non-Twitter Twitter client
 
 </details>
 
