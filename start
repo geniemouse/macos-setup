@@ -71,6 +71,9 @@ printf "
 - Safe to run multiple times on the same machine
 - It installs, upgrades, or skips packages based
   on what is already installed
+
+WARNING: be sure to login to the Apple App Store,
+if installing/updating App Store software.
 -------------------------------------------------
 \n"
 
@@ -257,13 +260,11 @@ if [ -x mas ]; then
     message_fail "Please install mas-cli first: brew mas ...skipping"
 else
     if [ -e "$APPS" ]; then
-        if mas account &>/dev/null; then
-            get_key_value_from_file "$APPS" install_application_via_app_store
-        else
-            message_fail "Please sign-in to the App Store first ...skipping"
-        fi
+      # Evaluation of store account/signin status was removed;
+      # macOS (since version 12.x.x) no longer allows access via command-line
+      get_key_value_from_file "$APPS" install_application_via_app_store
     else
-        message "No additional App Store applications requested."
+        message "No Apple App Store applications requested."
     fi
 fi
 

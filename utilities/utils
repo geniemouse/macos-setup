@@ -220,8 +220,12 @@ install_application_via_app_store() {
         mas install "$APP_ID"
         message_success "$APP_NAME installed"
     else
-        message_nochange "$APP_NAME already installed. Trying update..."
-        mas upgrade "$APP_ID"
+        message_nochange "$APP_NAME already installed"
+        if mas outdated | grep "$APP_ID" &> /dev/null; then
+            message_download "Upgrade $APP_NAME"
+            mas upgrade "$APP_ID"
+            message_success "$APP_NAME upgraded"
+        fi
     fi
 }
 
