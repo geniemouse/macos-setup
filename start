@@ -15,8 +15,8 @@ set -euo pipefail
 # 4. Install Homebrew brews (also runs `brew update`) and casks
 # 5. Install fonts (via Homebrew)
 # 6. Run Homebrew clean-up tasks
-# 7. Install Mac App Store applications
-# 8. Install npm global packages
+# 7. Install/update Mac App Store applications
+# 8. Install/update npm global packages
 # 9. Set global .gitconfig details
 # 10. Open sites for manual downloads
 
@@ -38,7 +38,7 @@ UTILITIES="$PWD/utilities/utils"
 # ============================================
 warn_script_failure() {
     FAILURE_CODE=$?
-    test $FAILURE_CODE -ne 0 && message "[𝘅] macOS set-up script failed." >&2
+    test $FAILURE_CODE -ne 0 && message "[𝘅] macOS set-up script stopped." >&2
     exit $FAILURE_CODE
 }
 
@@ -116,7 +116,7 @@ create_zshrc
 # =====================
 # INSTALL: Dependencies
 # =====================
-chapter "Installing dependencies..."
+chapter "Installing dependencies"
 
 # Xcode CLT
 # =========
@@ -156,7 +156,7 @@ if ! [ -x "$(command -v nvm)" ]; then
     message "Installing NVM/Node..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
     # Ready nvm command for immediate use
-    # Note: These lines are in the user profile
+    # Note: These lines are repeated in the user profile
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -165,8 +165,8 @@ if ! [ -x "$(command -v nvm)" ]; then
     printf "\n"
     message "Installing latest Node..."
     nvm install node
-    nvm use node
-    nvm run node --version
+    nvm use node &> /dev/null
+    nvm run node --version &> /dev/null
 else
     printf "\n"
     message_nochange "NVM/Node already installed"
@@ -195,9 +195,9 @@ fi
 
 
 # =======================
-# INSTALL: Homwbrew Brews
+# INSTALL: Homebrew Brews
 # =======================
-chapter "Installing Homebrew formulae..."
+chapter "Installing Homebrew formulae"
 
 if [ -e "$BREWS" ]; then
     for brew in $(<"$BREWS")
@@ -212,14 +212,14 @@ fi
 # ================
 # UPDATE: Homebrew
 # ================
-chapter "Updating Homebrew formulae..."
+chapter "Updating Homebrew formulae"
 brew update
 
 
 # =======================
 # INSTALL: Homebrew Casks
 # =======================
-chapter "Installing applications via Homebrew..."
+chapter "Installing applications via Homebrew"
 if [ -e "$CASKS" ]; then
     for cask in $(<"$CASKS")
     do
@@ -233,7 +233,7 @@ fi
 # =======================
 # INSTALL: Homebrew Fonts
 # =======================
-chapter "Installing fonts via Homebrew..."
+chapter "Installing fonts via Homebrew"
 
 if [ -e "$FONTS" ]; then
     message "Updating Homebrew fonts cask..."
@@ -247,14 +247,14 @@ fi
 # =====================
 # CLEAN: Homebrew files
 # =====================
-chapter "Clean-up Homebrew files..."
+chapter "Clean-up Homebrew files"
 brew cleanup 2> /dev/null
 
 
 # ===================================
 # INSTALL: Mac App Store applications
 # ===================================
-chapter "Installing Mac App Store applications..."
+chapter "Installing Mac App Store applications"
 
 if [ -x mas ]; then
     message_fail "Please install mas-cli first: brew mas ...skipping"
@@ -272,7 +272,7 @@ fi
 # ===========================
 # Install NPM global packages
 # ===========================
-chapter "Installing global npm packages..."
+chapter "Installing global npm packages"
 
 if [ -e "$NPM_PACKAGES" ]; then
     get_key_value_from_file "$NPM_PACKAGES" install_npm_packages
@@ -310,7 +310,7 @@ fi
 # ===============================
 # Open sites for manual downloads
 # ===============================
-chapter "Manual downloads..."
+chapter "Manual downloads"
 
 if [ -e "$MANUAL_INSTALLS" ]; then
     if ask "Open manual downloads in browser?" N; then
