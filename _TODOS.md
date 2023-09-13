@@ -1,6 +1,6 @@
 # macOS set-up @todo items
 
-1.Add SSH key generation step
+1. Add SSH key generation step
     - Add key copy command to `.zshrc` alias list
 1. Add directories:
     - Repos
