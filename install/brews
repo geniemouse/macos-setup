@@ -5,4 +5,5 @@ maven
 mas
 php
 prettier
+shellcheck
 wget
