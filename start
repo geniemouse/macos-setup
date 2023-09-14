@@ -149,28 +149,22 @@ fi
 
 # NVM/Node
 # ========
-# shellcheck disable=SC1091
-if ! [ -x "$(command -v nvm)" ]; then
-    # Install nvm
-    printf "\n"
-    message "Installing NVM/Node..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-    # Ready nvm command for immediate use
-    # Note: These lines are repeated in the user profile
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-    message_success "NVM/Node installed"
-    # Install node & npm
-    printf "\n"
-    message "Installing latest Node..."
-    nvm install node
-    nvm use node &> /dev/null
-    nvm run node --version &> /dev/null
-else
-    printf "\n"
-    message_nochange "NVM/Node already installed"
-fi
+# No harm in repeated runs of `nvm` installation; bonus checks for some updates
+printf "\n"
+message "Installing/updating NVM/Node..."
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+# Ensure `nvm` command ready for immediate use
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Install/upgrade latest `node` & `npm`
+printf "\n"
+message "Installing/updating latest Node package..."
+nvm install node
+nvm use node &> /dev/null
+nvm run node --version &> /dev/null
 
 
 # Homebrew

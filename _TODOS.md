@@ -1,9 +1,5 @@
 # macOS set-up @todo items
 
-1. Test for NVM install doesn't work, so install attempt runs each time
-    - Update NVM git repo url to latest version
-    - Remove if NVM statement, as not working. NVM's own checks seem sufficient
-    - Wrap NPM install in if-statement instead?
 1. Add SSH key generation step
     - Add key copy command to `.zshrc` alias list
 1. Add directories:
