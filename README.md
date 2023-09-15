@@ -132,7 +132,6 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 <details>
     <summary>Development</summary>
 
-- [Dash](https://kapeli.com/dash) offline API docsets, manuals & code snippets
 - [ImageOptim](https://imageoptim.com/mac) image optimisation
 - [iTerm 2](https://iterm2.com) improved terminal
 - [Kaleidoscope](https://kaleidoscope.app) powerful diff tool
