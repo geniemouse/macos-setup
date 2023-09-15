@@ -9,6 +9,7 @@ ENABLE_CORRECTION="true"
 
 # Environment variables
 # ---------------------
+export PATH="/usr/local/sbin:$PATH"
 export HOMEBREW_NO_ANALYTICS=1 # Turn off Google Analytics collection from Homebrew
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
