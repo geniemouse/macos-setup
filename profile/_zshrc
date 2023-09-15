@@ -4,7 +4,6 @@
 # Variables
 # ---------
 # shellcheck disable=SC2034
-ZSH_THEME="spaceship"
 ENABLE_CORRECTION="true"
 
 
@@ -102,3 +101,6 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
+
+# Spaceship-prompt
+source "/usr/local/opt/spaceship/spaceship.zsh"

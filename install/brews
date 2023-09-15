@@ -6,4 +6,5 @@ mas
 php
 prettier
 shellcheck
+spaceship
 wget
