@@ -154,8 +154,6 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 - [Magnet](https://magnet.crowdcafe.com) macOS window manager
 - [Numbers](https://www.apple.com/numbers/) Apple spreadsheet software
 - [Pages](https://www.apple.com/pages/) Apple word processing software
-- [Slack](https://slack.com) team/project communication
-- [Twitter/X](https://twitter.com/) (not so) social media channel
 
 </details>
 
