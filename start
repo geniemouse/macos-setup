@@ -231,7 +231,6 @@ chapter "Installing fonts via Homebrew"
 
 if [ -e "$FONTS" ]; then
     message "Updating Homebrew fonts cask..."
-    brew tap homebrew/cask-fonts
     get_key_value_from_file "$FONTS" install_fonts
 else
     message "No additional fonts requested."
