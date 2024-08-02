@@ -98,6 +98,7 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 <details>
     <summary>CLI tools & utilities</summary>
 
+- [ffmpeg](https://ffmpeg.org) for video/audio manipulation on the command-line
 - [git-standup](https://github.com/kamranahmedse/git-standup) to recall what you did yesterday
 - [ImageOptim-CLI](https://jamiemason.github.io/ImageOptim-CLI/) for batch optimising images
 - [mas](https://github.com/mas-cli/mas) to access Mac App Store
@@ -162,6 +163,7 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 
 - [Alfred](https://www.alfredapp.com) macOS helper for super-charged automation & shortcuts
 - [Encrypto](https://macpaw.com/encrypto) encrypting files & folders
+- [HandBrake](https://handbrake.fr) the open source video transcoder
 - [Microsoft Remote Desktop](https://www.microsoft.com/en-us/store/p/microsoft-remote-desktop/9wzdncrfj3ps)
 - [Pins for Pinboard](https://get-pins.app) macOS client for the [Pinboard](https://pinboard.in) bookmarking service
 - [Reeder 5](https://www.reederapp.com) RSS reader
