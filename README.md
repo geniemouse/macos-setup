@@ -126,7 +126,7 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 
 - [Affinity Designer](https://affinity.serif.com/en-us/designer/) vector graphics editor. Similar to Adobe Illustrator, without the subscription model
 - [Affinity Photo](https://affinity.serif.com/en-us/photo/) image editor. Similar to Adobe Photoshop, without the subscription model
-- [Skitch](https://evernote.com/products/skitch) annotated screenshots & sketches
+- [Shottr](https://shottr.cc) annotated screenshots & sketches
 
 </details>
 
