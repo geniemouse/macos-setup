@@ -136,6 +136,7 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 - [ImageOptim](https://imageoptim.com/mac) image optimisation
 - [iTerm 2](https://iterm2.com) improved terminal
 - [Kaleidoscope](https://kaleidoscope.app) powerful diff tool
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org) a powerful and stable keyboard customiser for macOS
 - [Nova](https://nova.app) macOS native IDE
 - [Sublime Text](https://www.sublimetext.com) IDE for Linux, Mac & PC
 - [Postman](https://www.postman.com) API building platform for designing, prototyping & sharing APIs
