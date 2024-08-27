@@ -4,6 +4,7 @@ git-standup
 imageoptim-cli
 maven
 mas
+oven-sh/bun/bun
 php
 prettier
 shellcheck
