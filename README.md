@@ -2,16 +2,16 @@
 
 - [General information](#general-information)
   - [Before running this script for the first time](#before-running-this-script-for-the-first-time)
-  - [Security & Homebrew packages](#security--homebrew-packages)
+  - [Security \& Homebrew packages](#security--homebrew-packages)
 - [Install](#install)
 - [Run](#run)
 - [What gets installed?](#what-gets-installed)
   - [Command-line](#command-line)
   - [Applications](#applications)
-  - [Fonts & themes](#fonts--themes)
+  - [Fonts \& themes](#fonts--themes)
 - [Known issues](#known-issues)
   - [Homebrew](#homebrew)
-  - [Mac App Store command-line interface & macOS Monterey](#mac-app-store-command-line-interface--macos-monterey)
+  - [Mac App Store command-line interface \& macOS Monterey](#mac-app-store-command-line-interface--macos-monterey)
 - [Acknowledgements](#acknowledgements)
 
 ---
@@ -126,6 +126,7 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 
 - [Affinity Designer](https://affinity.serif.com/en-us/designer/) vector graphics editor. Similar to Adobe Illustrator, without the subscription model
 - [Affinity Photo](https://affinity.serif.com/en-us/photo/) image editor. Similar to Adobe Photoshop, without the subscription model
+- [Inkscape](https://inkscape.org/) Vector image editor. Very good at tracing raster input to SVG output
 - [Shottr](https://shottr.cc) annotated screenshots & sketches
 
 </details>
@@ -133,6 +134,7 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 <details>
     <summary>Development</summary>
 
+- [Docker](https://www.docker.com/) Desktop. Run environment configurations for development
 - [ImageOptim](https://imageoptim.com/mac) image optimisation
 - [iTerm 2](https://iterm2.com) improved terminal
 - [Kaleidoscope](https://kaleidoscope.app) powerful diff tool
