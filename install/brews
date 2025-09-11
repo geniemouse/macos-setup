@@ -1,3 +1,4 @@
+biome
 ffmpeg
 git
 git-standup
@@ -7,6 +8,7 @@ mas
 oven-sh/bun/bun
 php
 prettier
+ripgrep
 shellcheck
 spaceship
 wget
