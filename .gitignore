@@ -2,3 +2,9 @@
 
 # IDE files/directories
 .vscode/
+*.*-workspace
+
+# Editors/OS
+.DS_Store
+Desktop.ini
+Thumbs.db
