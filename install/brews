@@ -7,8 +7,8 @@ maven
 mas
 oven-sh/bun/bun
 php
-prettier
 ripgrep
 shellcheck
 spaceship
+typescript
 wget
