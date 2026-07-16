@@ -98,11 +98,11 @@ bash ./start 2>&1 | tee -a ~/macos-setup-run_$(date +%F).log
 <details>
     <summary>CLI tools & utilities</summary>
 
+- [Biome](https://biomejs.dev/) for automated code formatting
 - [ffmpeg](https://ffmpeg.org) for video/audio manipulation on the command-line
 - [git-standup](https://github.com/kamranahmedse/git-standup) to recall what you did yesterday
 - [ImageOptim-CLI](https://jamiemason.github.io/ImageOptim-CLI/) for batch optimising images
 - [mas](https://github.com/mas-cli/mas) to access Mac App Store
-- [Prettier](https://prettier.io/) for automated code formatting
 - [Vagrant](https://www.vagrantup.com) development environments & sandboxes
 
 </details>
